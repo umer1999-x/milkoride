@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "693351482259",
+    "project_id": "milkoride",
+    "storage_bucket": "milkoride.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693351482259:android:8231ba7e85268ba2749e66",
+        "android_client_info": {
+          "package_name": "com.example.milkoride"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693351482259-hrindcso0krjnpbrolm7a711nk402e06.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACONeNKLAzrEmRgoH9YquH9dpeXuiVu88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693351482259-hrindcso0krjnpbrolm7a711nk402e06.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
