@@ -1,33 +1,48 @@
 import 'package:get/get.dart';
 
 class CartModel extends GetxController {
-  var productId;
-  var productName;
+  String productId;
+  String productName;
   int productPrice;
-  var productUnit;
-  var productImage;
+  String  productUnit;
+  String productImage;
   RxInt quantity;
-  int cost ;
-  var orderType;
+  int cost;
+  String orderType;
   CartModel({
-    this.productId,
-    this.productName,
+    required this.productId,
+    required this.productName,
     required this.productPrice,
-    this.productUnit,
-    this.productImage,
+    required this.productUnit,
+    required this.productImage,
     required this.quantity,
     required this.cost,
-    this.orderType,
+    required this.orderType,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'productId': productId,
-      'productName': productName,
-      'productPrice': productPrice,
-      'productUnit': productUnit,
-      'productImage': productImage,
-      'quantity': quantity
+      'productId': this.productId,
+      'productName': this.productName,
+      'productPrice': this.productPrice,
+      'productUnit': this.productUnit,
+      'productImage': this.productImage,
+      'quantity': this.quantity.value,
+      'cost': this.cost,
+      'orderType': this.orderType,
     };
+  }
+
+  factory CartModel.fromMap(Map<String, dynamic> map) {
+    return CartModel(
+      productId: map['productId'] as String,
+      productName: map['productName'] as String,
+      productPrice: map['productPrice'] as int,
+      productUnit: map['productUnit'] as String,
+      productImage: map['productImage'] as String,
+      quantity: map['quantity'] as RxInt,
+      cost: map['cost'] as int,
+      orderType: map['orderType'] as String,
+    );
   }
 }

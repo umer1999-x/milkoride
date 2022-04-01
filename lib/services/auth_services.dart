@@ -9,7 +9,7 @@ import 'package:uuid/uuid.dart';
 
 class AuthService {
   final FirebaseAuth _auth;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   AuthService(this._auth);
 
@@ -86,7 +86,7 @@ class AuthService {
         productUnit: unit,
         productPicUrl: photoUrl,
       );
-      await _firestore
+      await firestore
           .collection('products')
           .doc(prodId)
           .set(addProduct.toMap());

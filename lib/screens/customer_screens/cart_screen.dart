@@ -29,28 +29,19 @@ class CartScreen extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     CartModel product = cartController.cartList[index];
-                    // cartController.totalCartPrice.value =
-                    //     cartController.totalCartPrice.value +
-                    //         (product.quantity.value as int) *
-                    //             int.parse(product.productPrice);
-                    // print('total price');
-                    // print(cartController.totalCartPrice.value);
-                    //cartController.totalPrice(index);
                     return Card(
-                      margin: EdgeInsets.all(6),
+                      margin: const EdgeInsets.all(6),
                       shadowColor: Colors.lightBlue,
                       elevation: 5.0,
                       color: Colors.blue,
                       child: CartTile(
                         productImageUrl: product.productImage,
-                        //cartController.cartList[index].productImage,
                         productName: product.productName,
-                        //cartController.cartList[index].productName,
                         index: index,
                         productItemCount: product.quantity,
-                        //cartController.cartList[index].quantity.value,
                         productPrice: product.productPrice,
                         productUnit: product.productUnit,
+                        orderType: product.orderType,
                       ),
                     );
                   },
@@ -58,20 +49,40 @@ class CartScreen extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 6,
+            ),
             Obx(
-              () => TextButton(
-                onPressed:null,
-                style: TextButton.styleFrom(
-                  elevation: 5,
-                  primary: Colors.purple,
-                  backgroundColor: Colors.blue,
-                  textStyle: TextStyle(
-                    fontSize: 24,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-                child: Text('Total: ' + cartController.totalCartPrice.string),
-              ),
+              () => cartController.isLoading.value
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : AbsorbPointer(
+                      absorbing:
+                          cartController.TotalBill.isEqual(0) ? true : false,
+                      child: TextButton(
+                        onPressed: () async {
+                          String res;
+                          cartController.isLoading.value = true;
+                          res = await cartController.placeOrder();
+                          print(res.toString());
+                          SnackBar(content: Text(res));
+                          cartController.isLoading.value = false;
+                        },
+                        style: TextButton.styleFrom(
+                          elevation: 5,
+                          primary: Colors.purple,
+                          backgroundColor: Colors.blue,
+                          textStyle: const TextStyle(
+                            fontSize: 24,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                        child: Text('Order: ' +
+                            cartController.totalCartPrice.string +
+                            ' Rs'),
+                      ),
+                    ),
             ),
           ],
         ),
@@ -89,11 +100,13 @@ class CartTile extends StatelessWidget {
     required this.productItemCount,
     required this.productUnit,
     required this.index,
+    required this.orderType,
   }) : super(key: key);
   var productImageUrl;
   var productName;
   var productPrice;
   var productUnit;
+  var orderType;
   RxInt productItemCount;
   var index;
   @override
@@ -110,13 +123,15 @@ class CartTile extends StatelessWidget {
             ),
           ),
           Expanded(
+            flex: 5,
             child: ListTile(
               title: Text(productName),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Rs ' + productPrice.toString()),
-                  Text('Per ' + productUnit)
+                  Text('Per ' + productUnit),
+                  Text('OrderType: ' + orderType),
                 ],
               ),
             ),
@@ -125,6 +140,7 @@ class CartTile extends StatelessWidget {
             width: 6,
           ),
           Expanded(
+            flex: 2,
             child: Container(
               decoration: const BoxDecoration(
                 // borderRadius: BorderRadius.circular(22),
@@ -163,6 +179,7 @@ class CartTile extends StatelessWidget {
             ),
           ),
           Expanded(
+            flex: 2,
             child: Container(
               decoration: const BoxDecoration(
                 // borderRadius: BorderRadius.circular(22),

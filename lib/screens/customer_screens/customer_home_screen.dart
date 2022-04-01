@@ -11,7 +11,7 @@ class CustomerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        drawer: CustomerDrawer(),
+        drawer: const CustomerDrawer(),
         appBar: AppBar(
           title: const Text('Customer Screen'),
           actions: [
@@ -34,12 +34,27 @@ class CustomerScreen extends StatelessWidget {
         body: Column(
           children:[
             Container(
-              margin: const EdgeInsets.all(16),
-              padding: const EdgeInsets.all(16),
-              height: MediaQuery.of(context).size.height/4,
+              margin: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
+              height: 250,
               width: MediaQuery.of(context).size.width,
-              child: Text('abc'),
-              color: Colors.red,
+              child: Card(
+               elevation: 8.0,
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.blue, width: 3,)
+                ),
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text('Current Order'),
+
+                    ),
+                  ],
+
+                ),
+              ),
+
             )
           ],
         ),

@@ -86,7 +86,7 @@ class _ProductCardState extends State<ProductCard> {
                     productUnit: widget.snap['productUnit'].toString(),
                     cost:widget.snap['productPrice'] * _quantity.value,
                     quantity: _quantity,
-                    orderType: widget.snap['orderType'].toString(),
+                    orderType: dropDownValue.toString(),
                   );
                   cartController.addToCart(productCart);
                   cartController.cartPrice();
