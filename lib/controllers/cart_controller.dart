@@ -3,7 +3,6 @@ import 'package:milkoride/models/cart_model.dart';
 import 'package:get/get.dart';
 import 'package:milkoride/models/order_model.dart';
 import 'package:milkoride/services/auth_services.dart';
-import 'package:milkoride/services/controllers.dart';
 import 'package:uuid/uuid.dart';
 
 class CartController extends GetxController {
@@ -74,6 +73,7 @@ class CartController extends GetxController {
     }
     String orderID = uuid.v4();
     OrderModel order = OrderModel(
+      userId: AuthService.getUid!,
       orderId: orderID,
       totalBill: TotalBill,
       orderDate: DateTime.now(),
@@ -82,10 +82,12 @@ class CartController extends GetxController {
     );
     String res = 'OrderPlaced';
     try {
-      print('here');
+      if (kDebugMode) {
+        print('here');
+      }
       await AuthService.firestore
           .collection('orders')
-          .doc(orderID)
+          .doc(AuthService.getUid!)
           .set(order.toMap());
        res='OrderPlaced';
       cartList.clear();

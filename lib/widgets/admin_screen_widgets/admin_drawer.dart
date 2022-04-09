@@ -4,6 +4,8 @@ import 'package:milkoride/screens/admin_screens/add_product.dart';
 import 'package:milkoride/screens/admin_screens/show_products.dart';
 
 class AdminDrawer extends StatelessWidget {
+  const AdminDrawer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Drawer(

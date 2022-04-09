@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:milkoride/models/cart_model.dart';
 import 'package:milkoride/services/controllers.dart';

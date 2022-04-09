@@ -1,19 +1,16 @@
 import 'package:milkoride/services/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:milkoride/screens/utilites.dart';
-class CreateUser extends StatefulWidget {
-  @override
-  _State createState() => _State();
-}
+import 'package:get/get.dart';
+import 'package:milkoride/services/controllers.dart';
 
-class _State extends State<CreateUser> with InputValidationMixin{
-  AuthService auth = AuthService(FirebaseAuth.instance);
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController roleController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
+class CreateUser extends StatelessWidget with InputValidationMixin {
+  final AuthService auth = AuthService(FirebaseAuth.instance);
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController roleController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
   final formGlobalKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -31,15 +28,17 @@ class _State extends State<CreateUser> with InputValidationMixin{
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Create User',
+                  const Text(
+                    'Create User',
                     style: TextStyle(
                       fontSize: 25,
-                      fontWeight:FontWeight.bold,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   TextFormField(
                     controller: nameController,
-                    decoration: const InputDecoration(labelText: "Name",
+                    decoration: const InputDecoration(
+                      labelText: "Name",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       ),
@@ -55,7 +54,8 @@ class _State extends State<CreateUser> with InputValidationMixin{
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: emailController,
-                    decoration: const InputDecoration(labelText: "Email",
+                    decoration: const InputDecoration(
+                      labelText: "Email",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       ),
@@ -97,7 +97,7 @@ class _State extends State<CreateUser> with InputValidationMixin{
                       ),
                     ),
                     validator: (role) {
-                      if (role=='customer'|| role=='supplier') {
+                      if (role == 'customer' || role == 'supplier') {
                         return null;
                       } else {
                         return 'Enter a valid role';
@@ -105,36 +105,53 @@ class _State extends State<CreateUser> with InputValidationMixin{
                     },
                   ),
                   const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (formGlobalKey.currentState!.validate()) {
-                        String name = nameController.text.trim();
-                        String email = emailController.text.trim();
-                        String password = passwordController.text.trim();
-                        String role = roleController.text.trim();
-                        var result = await auth.signUp(name, email, password, role);
-                        if (result.toString() == 'Signed Up') {
-                          buildShowDialog(context, 'Alert', "User Created");
-                          nameController.clear();
-                          emailController.clear();
-                          passwordController.clear();
-                          roleController.clear();
-                        }
-                        else{
-                          buildShowDialog(context, 'Alert', "Something went wrong");
-                        }
-                      }
-                    },
-                    child: Container(
-                      height: 50,
-                      width: 100,
-                      color: Colors.blue,
-                      child: const Center(
-                        child: Text(
-                          "Create User",
-                        ),
-                      ),
-                    ),
+                  Obx(
+                    () => createUserController.isCreating.value
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : ElevatedButton(
+                            onPressed: () async {
+                              if (formGlobalKey.currentState!.validate()) {
+                                createUserController.isCreating.value = true;
+                                final String name = nameController.text.trim();
+                                final String email =
+                                    emailController.text.trim();
+                                final String password =
+                                    passwordController.text.trim();
+                                final String role = roleController.text.trim();
+                                final String result = await auth.signUp(
+                                    name, email, password, role);
+                                if (result.toString() == 'Signed Up') {
+                                  Get.defaultDialog(
+                                    title: 'Alert',
+                                    content: const Text('User Created'),
+                                  );
+                                  createUserController.isCreating.value =false;
+                                  nameController.clear();
+                                  emailController.clear();
+                                  passwordController.clear();
+                                  roleController.clear();
+                                } else {
+                                  createUserController.isCreating.value = false;
+                                  Get.defaultDialog(
+                                    title: 'Alert',
+                                    content: const Text('Something went wrong'),
+                                  );
+                                }
+                              }
+                            },
+                            child: Container(
+                              height: 50,
+                              width: 100,
+                              color: Colors.blue,
+                              child: const Center(
+                                child: Text(
+                                  "Create User",
+                                ),
+                              ),
+                            ),
+                          ),
                   ),
                 ],
               ),

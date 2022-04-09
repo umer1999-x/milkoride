@@ -1,27 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lottie/lottie.dart';
-import 'package:milkoride/main.dart';
-import 'package:milkoride/screens/login_signup_screens/login_screen.dart';
 import 'package:milkoride/services/auth_services.dart';
 import 'package:milkoride/screens/utilites.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:milkoride/screens/utilites.dart';
+import 'package:get/get.dart';
+import 'package:milkoride/services/controllers.dart';
 
-class SignupS extends StatefulWidget {
-  const SignupS({Key? key}) : super(key: key);
-
-  @override
-  _SignupSState createState() => _SignupSState();
-}
-
-class _SignupSState extends State<SignupS> with InputValidationMixin {
-  AuthService auth = AuthService(FirebaseAuth.instance);
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
+class SignUpScreen extends StatelessWidget with InputValidationMixin {
+  final AuthService auth = AuthService(FirebaseAuth.instance);
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
   final formGlobalKey = GlobalKey<FormState>();
-  bool isLoading = false;
+
+  SignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -101,56 +93,59 @@ class _SignupSState extends State<SignupS> with InputValidationMixin {
                     }
                   },
                 ),
-                isLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                Obx(
+                  () => signController.isLoading.value
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.blue,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                            ),
                           ),
-                        ),
-                        onPressed: () async {
-                          if (formGlobalKey.currentState!.validate()) {
-                            // formGlobalKey.currentState!.save();
-                            final String email = emailController.text.trim();
-                            final String password =
-                                passwordController.text.trim();
-                            final String name = nameController.text.trim();
-                            setState(() {
-                              isLoading = true;
-                            });
-                            //User? user = FirebaseAuth.instance.currentUser;
-                            var res =
-                                await auth.signUp(name, email, password, "user");
-                            if (res.toString() == 'Signed Up') {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MyApp()));
-                              buildShowDialog(
-                                  context, "Alert", "SignUp Completed");
-                            } else {
-                              buildShowDialog(context, "Alert",
-                                  "User Already exists or Something went wrong");
-                              emailController.clear();
-                              passwordController.clear();
-                            }
+                          onPressed: () async {
+                            if (formGlobalKey.currentState!.validate()) {
+                              // formGlobalKey.currentState!.save();
+                              final String email = emailController.text.trim();
+                              final String password =
+                                  passwordController.text.trim();
+                              final String name = nameController.text.trim();
 
-                            setState(() {
-                              isLoading = false;
-                            });
-                          }
-                        },
-                        child: const Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            color: Colors.black,
+                              signController.isLoading.value = true;
+
+                              var res = await auth.signUp(
+                                  name, email, password, "user");
+                              if (res.toString() == 'Signed Up') {
+                                Get.offAllNamed('/login');
+
+                                Get.defaultDialog(
+                                  title: 'Alert',
+                                  content: const Text('SignUp Completed'),
+                                );
+                              } else {
+                                Get.defaultDialog(
+                                  title: 'Alert',
+                                  content: const Text(
+                                      'User Already exists or Something went wrong'),
+                                );
+                                emailController.clear();
+                                passwordController.clear();
+                              }
+
+                              signController.isLoading.value = false;
+                            }
+                          },
+                          child: const Text(
+                            'Sign Up',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
                           ),
                         ),
-                      ),
+                ),
               ],
             ),
           ),

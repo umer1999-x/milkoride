@@ -1,21 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:milkoride/screens/utilites.dart';
+import 'package:get/get.dart';
+import 'package:milkoride/services/controllers.dart';
+import '../../services/auth_services.dart';
 
-class EditUser extends StatefulWidget {
-  final String? uid;
-
-  EditUser({this.uid});
-  @override
-  _EditUserState createState() => _EditUserState();
-}
-
-class _EditUserState extends State<EditUser> with InputValidationMixin {
-  TextEditingController roleController = TextEditingController();
-  //TextEditingController passwordController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+class EditUser extends StatelessWidget with InputValidationMixin {
+  final dynamic data = Get.arguments;
+  EditUser({Key? key}) : super(key: key);
+  final TextEditingController roleController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final formGlobalKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -49,7 +46,7 @@ class _EditUserState extends State<EditUser> with InputValidationMixin {
                       if (role == 'customer' || role == 'supplier') {
                         return null;
                       } else {
-                        return "enter a valid role";
+                        return 'enter a valid role';
                       }
                     },
                   ),
@@ -62,7 +59,7 @@ class _EditUserState extends State<EditUser> with InputValidationMixin {
                       if (isEmailValid(email)) {
                         return null;
                       } else {
-                        return "enter a valid email";
+                        return 'enter a valid email';
                       }
                     },
                   ),
@@ -75,38 +72,46 @@ class _EditUserState extends State<EditUser> with InputValidationMixin {
                       if (isNameValid(name)) {
                         return null;
                       } else {
-                        return "enter a valid name";
+                        return 'enter a valid name';
                       }
                     },
                   ),
                   const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () async {
-                      String email = emailController.text.trim();
-                      String newRole = roleController.text.trim();
-                      //String newPassword = passwordController.text.trim();
-                      String name = nameController.text.trim();
-                      if (formGlobalKey.currentState!.validate()) {
-                        await FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(widget.uid)
-                            .update({
-                          'name': name,
-                          'role': newRole,
-                          'email': email,
-                          //'password': newPassword,
-                        });
-                        buildShowDialog(context, "Alert", 'Updated');
-                        setState(() {
-                          emailController.clear();
-                          roleController.clear();
-                          nameController.clear();
-                        });
-                      } else {
-                        buildShowDialog(context, 'Alert', 'Updating error');
-                      }
-                    },
-                    child: const Text('Update'),
+                  Obx(
+                    () => editController.isUpdating.value
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : ElevatedButton(
+                            onPressed: () async {
+                              String email = emailController.text.trim();
+                              String newRole = roleController.text.trim();
+                              String name = nameController.text.trim();
+                              if (formGlobalKey.currentState!.validate()) {
+                                editController.isUpdating.value = true;
+                                String res = await AuthService.updateUser(
+                                    name, newRole, email, data[0].toString());
+                                if (res == "successfully updated") {
+                                  emailController.clear();
+                                  roleController.clear();
+                                  nameController.clear();
+                                  editController.isUpdating.value = false;
+                                } else {
+                                  emailController.clear();
+                                  roleController.clear();
+                                  nameController.clear();
+                                  editController.isUpdating.value = false;
+                                }
+                              }
+                              else{
+                                Get.defaultDialog(
+                                  title: 'Alert',
+                                  content: const Text('Enter a Valid details'),
+                                );
+                              }
+                            },
+                            child: const Text('Update'),
+                          ),
                   ),
                 ],
               ),

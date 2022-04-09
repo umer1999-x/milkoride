@@ -9,7 +9,7 @@ class CartModel extends GetxController {
   RxInt quantity;
   int cost;
   String orderType;
-  CartModel({
+  CartModel( {
     required this.productId,
     required this.productName,
     required this.productPrice,
@@ -40,7 +40,7 @@ class CartModel extends GetxController {
       productPrice: map['productPrice'] as int,
       productUnit: map['productUnit'] as String,
       productImage: map['productImage'] as String,
-      quantity: map['quantity'] as RxInt,
+      quantity: RxInt(map['quantity']) ,
       cost: map['cost'] as int,
       orderType: map['orderType'] as String,
     );

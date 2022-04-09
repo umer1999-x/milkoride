@@ -1,15 +1,18 @@
-import 'dart:typed_data';
 
+import 'dart:typed_data';
+import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:milkoride/models/add_product_model.dart';
 import 'package:milkoride/services/storages_methods.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter/material.dart';
 
 class AuthService {
   final FirebaseAuth _auth;
   static final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  static String? get getUid => FirebaseAuth.instance.currentUser?.uid.toString();
 
   AuthService(this._auth);
 
@@ -56,6 +59,27 @@ class AuthService {
         print('in delete func');
       }
       return "successfully deleted";
+    } catch (e) {
+      return '$e.toString()';
+    }
+  }
+
+  static Future<String> updateUser(String name, String newRole, String email ,String uid) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .update({
+        'name': name,
+        'role': newRole,
+        'email': email,
+        //'password': newPassword,
+      });
+      Get.defaultDialog(
+        title: 'Alert',
+        content: const Text('Updated'),
+      );
+      return 'successfully updated';
     } catch (e) {
       return '$e.toString()';
     }

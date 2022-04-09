@@ -1,29 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:milkoride/main.dart';
+import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:milkoride/services/auth_services.dart';
+import 'package:milkoride/services/controllers.dart';
 import 'package:milkoride/widgets/admin_screen_widgets/admin_drawer.dart';
 import 'package:milkoride/screens/admin_screens/edit_user_data.dart';
 import 'package:milkoride/screens/utilites.dart';
 
-class AdminScreen extends StatefulWidget {
-  AdminScreen({Key? key}) : super(key: key);
 
-  @override
-  State<AdminScreen> createState() => _AdminScreenState();
-}
 
-class _AdminScreenState extends State<AdminScreen> with InputValidationMixin {
-  TextEditingController emailController = TextEditingController();
-  AuthService auth = AuthService(FirebaseAuth.instance);
-  String email = "";
-  String uid = "";
-  String role = "";
-  String password = "";
-  bool ableToEdit = false;
-  bool ableToDelete = false;
+class AdminScreen extends StatelessWidget with InputValidationMixin {
+  final TextEditingController emailController = TextEditingController();
+  final AuthService auth = AuthService(FirebaseAuth.instance);
   final formGlobalKey = GlobalKey<FormState>();
+  AdminScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +31,7 @@ class _AdminScreenState extends State<AdminScreen> with InputValidationMixin {
                 ),
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => MyApp()));
+                  Get.offAndToNamed('/login');
                 },
                 child: const Text(
                   'Sign Out',
@@ -56,8 +45,6 @@ class _AdminScreenState extends State<AdminScreen> with InputValidationMixin {
             child: Form(
               key: formGlobalKey,
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                //   crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
                     'Admin Screen',
@@ -95,33 +82,34 @@ class _AdminScreenState extends State<AdminScreen> with InputValidationMixin {
                             .collection('users')
                             .where('email', isEqualTo: userEmail)
                             .get();
-                        print('message');
-                        print(snap.docs.toString().isNotEmpty);
                         if (snap.docs.isNotEmpty) {
-                          setState(() {
-                            email = userEmail;
-                            uid = snap.docs[0]['uid'];
-                            role = snap.docs[0]['role'];
-                            password = snap.docs[0]['password'];
-                            ableToEdit = true;
-                            ableToDelete = true;
-                          });
+                          adminController.name.value = snap.docs[0]['name'];
+                          adminController.email.value = userEmail;
+                          adminController.uid.value = snap.docs[0]['uid'];
+                          adminController.role.value = snap.docs[0]['role'];
+                          adminController.password.value =
+                              snap.docs[0]['password'];
+                          adminController.ableToEdit.value = true;
+                          adminController.ableToDelete.value = true;
                         } else {
-                          buildShowDialog(
-                              context, 'Alert', "Something Went Wrong");
-                          setState(() {
-                            ableToEdit = false;
-                            ableToDelete = false;
-                            emailController.clear();
-                            email = "";
-                            role = "";
-                            password = "";
-                            uid = "";
-                          });
+                          Get.defaultDialog(
+                            title: 'Alert',
+                            content: const Text('Something Went Wrong'),
+                          );
+                          adminController.ableToEdit.value = false;
+                          adminController.ableToDelete.value = false;
+                          emailController.clear();
+                          adminController.email.value = "";
+                          adminController.role.value = "";
+                          adminController.password.value = "";
+                          adminController.uid.value = "";
+                          adminController.name.value = "";
                         }
                       } else {
-                        buildShowDialog(
-                            context, 'Alert', "Something Went Wrong");
+                        Get.defaultDialog(
+                          title: 'Alert',
+                          content: const Text('Something Went Wrong'),
+                        );
                       }
                     },
                     child: Container(
@@ -136,76 +124,84 @@ class _AdminScreenState extends State<AdminScreen> with InputValidationMixin {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  ableToEdit
-                      ? ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EditUser(
-                                          uid: uid,
-                                        )));
-                          },
-                          child: Container(
-                            height: 50,
-                            width: 100,
-                            color: Colors.blue,
-                            child: const Center(
-                              child: Text(
-                                "Edit User",
+                  Obx(
+                    () => adminController.ableToEdit.value
+                        ? ElevatedButton(
+                            onPressed: () {
+                              Get.to(() => EditUser(), arguments: [
+                                adminController.uid.value,
+                                adminController.email.value,
+                                adminController.role.value,
+                                adminController.name.value,
+                              ]);
+                            },
+                            child: Container(
+                              height: 50,
+                              width: 100,
+                              color: Colors.blue,
+                              child: const Center(
+                                child: Text(
+                                  "Edit User",
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                      : Container(),
+                          )
+                        : Container(),
+                  ),
                   const SizedBox(height: 10),
-                  ableToDelete
-                      ? ElevatedButton(
-                          onPressed: () async {
-                            dynamic res = await auth.deleteUser(uid);
-                            print(res);
-                            if (res == 'successfully deleted') {
-                              buildShowDialog(context, 'Alert', "User Deleted");
-                              setState(() {
-                                ableToDelete = false;
-                                ableToEdit = false;
+                  Obx(
+                    () => adminController.ableToDelete.value
+                        ? ElevatedButton(
+                            onPressed: () async {
+                              dynamic res = await auth.deleteUser(adminController.uid.value);
+                              if (kDebugMode) {
+                                print(res);
+                              }
+                              if (res == 'successfully deleted') {
+                                Get.defaultDialog(
+                                  title: 'Alert',
+                                  content: const Text('User Deleted'),
+                                );
+                                adminController.ableToEdit.value = false;
+                                adminController.ableToDelete.value = false;
                                 emailController.clear();
-                                email = "";
-                                role = "";
-                                password = "";
-                                uid = "";
-                              });
-                            } else {
-                              buildShowDialog(
-                                  context, 'Alert', "Something Went Wrong");
-                              setState(() {
-                                ableToDelete = false;
-                                ableToEdit = false;
+                                adminController.email.value = "";
+                                adminController.role.value = "";
+                                adminController.password.value = "";
+                                adminController.uid.value = "";
+                                adminController.name.value = "";
+                              } else {
+                                Get.defaultDialog(
+                                  title: 'Alert',
+                                  content: const Text('Something Went Wrong'),
+                                );
+                                adminController.ableToEdit.value = false;
+                                adminController.ableToDelete.value = false;
                                 emailController.clear();
-                                email = "";
-                                role = "";
-                                password = "";
-                                uid = "";
-                              });
-                            }
-                          },
-                          child: Container(
-                            height: 50,
-                            width: 100,
-                            color: Colors.blue,
-                            child: const Center(
-                              child: Text(
-                                "Delete User",
+                                adminController.email.value = "";
+                                adminController.role.value = "";
+                                adminController.password.value = "";
+                                adminController.uid.value = "";
+                                adminController.name.value = "";
+                              }
+                            },
+                            child: Container(
+                              height: 50,
+                              width: 100,
+                              color: Colors.blue,
+                              child: const Center(
+                                child: Text(
+                                  "Delete User",
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                      : Container(),
+                          )
+                        : Container(),
+                  ),
                   // const SizedBox(
                   //   height: 20,
                   // ),
                   const ListTile(
-
                     title: Text(
                       'User Data',
                       textAlign: TextAlign.center,
@@ -217,14 +213,20 @@ class _AdminScreenState extends State<AdminScreen> with InputValidationMixin {
                   const SizedBox(
                     height: 5,
                   ),
-                  ListTile(
-                    title: Text('Email : ' + email),
-                  ),
-                  ListTile(
-                    title: Text('UID : ' + uid),
-                  ),
-                  ListTile(
-                    title: Text('Role : ' + role),
+                  Obx(
+                    () => Card(
+                      elevation: 5.0,
+                      child: ListTile(
+                        title: Column(
+                          children: [
+                            Text('Name : ' + adminController.name.value),
+                            Text('Email : ' + adminController.email.value),
+                            Text('UID : ' + adminController.uid.value),
+                            Text('Role : ' + adminController.role.value),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
