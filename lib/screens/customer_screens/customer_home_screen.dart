@@ -44,7 +44,7 @@ class CustomerScreen extends StatelessWidget {
             }
             if (snapshot.hasError) {
               return const Center(
-                child: Text('No data exist'),
+                child: Text('snapshot has error'),
               );
             }
             try {
@@ -52,45 +52,82 @@ class CustomerScreen extends StatelessWidget {
                 List<dynamic> data = snapshot.data!['orderList'];
                 List<CartModel> orderList =
                     data.map((e) => CartModel.fromMap(e)).toList();
-                return Stack(children: [
-                  ListView.builder(
-                      itemCount: orderList.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Card(
-                            color: Colors.blue,
-                            child: ListTile(
-                              contentPadding: const EdgeInsets.all(8),
-                              title: Text(orderList[index].productName),
-                              trailing: Text(
-                                  orderList[index].quantity.value.toString()),
-                              leading: Image.network(
-                                orderList[index].productImage.toString(),
+                return SingleChildScrollView(
+                  physics: const ScrollPhysics(),
+                  child: Column(
+                    children: [
+                      ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: orderList.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Card(
+                                color: Colors.blue,
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.all(8),
+                                  title: Text(orderList[index].productName),
+                                  trailing: Text(orderList[index]
+                                      .quantity
+                                      .value
+                                      .toString()),
+                                  leading: Image.network(
+                                    orderList[index].productImage.toString(),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.blue,
+                              ),
+                              onPressed: null,
+                              child: Text(
+                                'Total Bill ' +
+                                    snapshot.data!['totalBill'].toString() +
+                                    ' PKR',
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
-                          ),
-                        );
-                      }),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    width: MediaQuery.of(context).size.width,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                            const SizedBox(
+                              width: 6,
+                            ),
+                            Expanded(
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                ),
+                                onPressed: null,
+                                child: snapshot.data!['isDelivered']
+                                    ? const Text(
+                                        'Delivered',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    : const Text('Not Delivered',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      onPressed: null,
-                      child: Text(
-                        'Total Bill ' +
-                            snapshot.data!['totalBill'].toString() +
-                            ' RS',
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                    ],
                   ),
-                ]);
+                );
               } else {
                 return const Center(
                   child: Text('No Order Exist'),

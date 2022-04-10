@@ -14,36 +14,33 @@ class CartScreen extends StatelessWidget {
           title: const Text('Cart Screen'),
           centerTitle: true,
         ),
-        body: ListView(
-          scrollDirection: Axis.vertical,
+        body: SingleChildScrollView(
+          physics: ScrollPhysics(),
           padding: EdgeInsets.all(6),
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 8.0),
-              child: Obx(
-                () => ListView.builder(
-                  //scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    CartModel product = cartController.cartList[index];
-                    return Card(
-                      margin: const EdgeInsets.all(6),
-                      shadowColor: Colors.lightBlue,
-                      elevation: 5.0,
-                      color: Colors.blue,
-                      child: CartTile(
-                        productImageUrl: product.productImage,
-                        productName: product.productName,
-                        index: index,
-                        productItemCount: product.quantity,
-                        productPrice: product.productPrice,
-                        productUnit: product.productUnit,
-                        orderType: product.orderType,
-                      ),
-                    );
-                  },
-                  itemCount: cartController.cartList.length,
-                ),
+          child: Column(children: [
+            Obx(
+              () => ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  CartModel product = cartController.cartList[index];
+                  return Card(
+                    margin: const EdgeInsets.all(6),
+                    shadowColor: Colors.lightBlue,
+                    elevation: 5.0,
+                    color: Colors.blue,
+                    child: CartTile(
+                      productImageUrl: product.productImage,
+                      productName: product.productName,
+                      index: index,
+                      productItemCount: product.quantity,
+                      productPrice: product.productPrice,
+                      productUnit: product.productUnit,
+                      orderType: product.orderType,
+                    ),
+                  );
+                },
+                itemCount: cartController.cartList.length,
               ),
             ),
             const SizedBox(
@@ -81,7 +78,7 @@ class CartScreen extends StatelessWidget {
                       ),
                     ),
             ),
-          ],
+          ]),
         ),
       ),
     );
