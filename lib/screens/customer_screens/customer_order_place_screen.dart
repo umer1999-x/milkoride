@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:milkoride/screens/customer_screens/cart_screen.dart';
 import 'package:milkoride/screens/customer_screens/product_card_widget.dart';
@@ -33,6 +34,7 @@ class _CustomerPlaceOrderState extends State<CustomerPlaceOrder> {
               child: SingleChildScrollView(
                 physics: const ScrollPhysics(),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     ListView.builder(
                       shrinkWrap: true,
@@ -53,7 +55,8 @@ class _CustomerPlaceOrderState extends State<CustomerPlaceOrder> {
                         Get.to(() => CartScreen());
                       },
                       child: const Icon(Icons.shopping_cart),
-                    )
+                    ),
+
                   ],
                 ),
               ),

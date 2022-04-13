@@ -11,6 +11,7 @@ class CreateUser extends StatelessWidget with InputValidationMixin {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController roleController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
   final formGlobalKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -97,10 +98,29 @@ class CreateUser extends StatelessWidget with InputValidationMixin {
                       ),
                     ),
                     validator: (role) {
-                      if (role == 'customer' || role == 'supplier') {
+                      if (role == 'customer' || role == 'supplier' || role =='rider') {
                         return null;
                       } else {
                         return 'Enter a valid role';
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 15.0,
+                  ),
+                  TextFormField(
+                    controller: addressController,
+                    decoration: const InputDecoration(
+                      labelText: "Shipping Address",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                    ),
+                    validator: (address) {
+                      if (address!.isNotEmpty && address.contains(RegExp(r'[a-zA-Z0-9, ]'))) {
+                        return null;
+                      } else {
+                        return 'Enter a valid address';
                       }
                     },
                   ),
@@ -120,8 +140,9 @@ class CreateUser extends StatelessWidget with InputValidationMixin {
                                 final String password =
                                     passwordController.text.trim();
                                 final String role = roleController.text.trim();
+                                final String address =addressController.text.trim();
                                 final String result = await auth.signUp(
-                                    name, email, password, role);
+                                    name, email, password, role,address);
                                 if (result.toString() == 'Signed Up') {
                                   Get.defaultDialog(
                                     title: 'Alert',

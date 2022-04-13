@@ -11,6 +11,7 @@ class EditUser extends StatelessWidget with InputValidationMixin {
   final TextEditingController roleController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
   final formGlobalKey = GlobalKey<FormState>();
 
   @override
@@ -43,7 +44,7 @@ class EditUser extends StatelessWidget with InputValidationMixin {
                     decoration: const InputDecoration(
                         hintText: "Role", border: OutlineInputBorder()),
                     validator: (role) {
-                      if (role == 'customer' || role == 'supplier') {
+                      if (role == 'customer' || role == 'supplier' || role =='rider') {
                         return null;
                       } else {
                         return 'enter a valid role';
@@ -77,6 +78,22 @@ class EditUser extends StatelessWidget with InputValidationMixin {
                     },
                   ),
                   const SizedBox(height: 10),
+                  TextFormField(
+                    controller: addressController,
+                    decoration: const InputDecoration(
+                      labelText: "Shipping Address",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                    ),
+                    validator: (address) {
+                      if (address!.isNotEmpty && address.contains(RegExp(r'[a-zA-Z0-9#, ]'))) {
+                        return null;
+                      } else {
+                        return 'Enter a valid address';
+                      }
+                    },
+                  ),
                   Obx(
                     () => editController.isUpdating.value
                         ? const Center(
@@ -87,19 +104,22 @@ class EditUser extends StatelessWidget with InputValidationMixin {
                               String email = emailController.text.trim();
                               String newRole = roleController.text.trim();
                               String name = nameController.text.trim();
+                              String address = addressController.text.trim();
                               if (formGlobalKey.currentState!.validate()) {
                                 editController.isUpdating.value = true;
                                 String res = await AuthService.updateUser(
-                                    name, newRole, email, data[0].toString());
+                                    name, newRole, email, data[0].toString(),address);
                                 if (res == "successfully updated") {
                                   emailController.clear();
                                   roleController.clear();
                                   nameController.clear();
+                                  addressController.clear();
                                   editController.isUpdating.value = false;
                                 } else {
                                   emailController.clear();
                                   roleController.clear();
                                   nameController.clear();
+                                  addressController.clear();
                                   editController.isUpdating.value = false;
                                 }
                               }

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:milkoride/controllers/add_product_controller.dart';
 import 'package:milkoride/controllers/create_user_controller.dart';
 import 'package:milkoride/controllers/edituser_controller.dart';
 import 'package:milkoride/controllers/login_controller.dart';
@@ -19,6 +20,7 @@ void main() async {
   Get.put(AdminController());
   Get.put(EditController());
   Get.put(CreateUserController());
+  Get.put(AddProductController());
   runApp(MyApp());
 }
 

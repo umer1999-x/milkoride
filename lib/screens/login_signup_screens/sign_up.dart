@@ -11,6 +11,7 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
   final formGlobalKey = GlobalKey<FormState>();
 
   SignUpScreen({Key? key}) : super(key: key);
@@ -93,6 +94,25 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
                     }
                   },
                 ),
+                const SizedBox(
+                  height: 15.0,
+                ),
+                TextFormField(
+                  controller: addressController,
+                  decoration: const InputDecoration(
+                    labelText: "Shipping Address",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    ),
+                  ),
+                  validator: (address) {
+                    if (address!.isNotEmpty && address.contains(RegExp(r'[a-zA-Z0-9#, ]')) && address.length >= 6) {
+                      return null;
+                    } else {
+                      return 'Enter a valid address';
+                    }
+                  },
+                ),
                 Obx(
                   () => signController.isLoading.value
                       ? const Center(
@@ -113,11 +133,12 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
                               final String password =
                                   passwordController.text.trim();
                               final String name = nameController.text.trim();
+                              final String address = addressController.text.trim();
 
                               signController.isLoading.value = true;
 
                               var res = await auth.signUp(
-                                  name, email, password, "user");
+                                  name, email, password, "user",address);
                               if (res.toString() == 'Signed Up') {
                                 Get.offAllNamed('/login');
 

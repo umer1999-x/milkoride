@@ -2,9 +2,12 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:milkoride/controllers/add_product_controller.dart';
 import 'package:milkoride/screens/utilites.dart';
 import 'package:milkoride/services/auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:milkoride/services/controllers.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({
@@ -184,33 +187,41 @@ class _AddProductState extends State<AddProduct> {
                           ),
                         ),
                       ),
-                _file != null
-                    ? ElevatedButton(
-                        child: const Text('Upload'),
-                        onPressed: () async {
-                          try {
-                            String res =
-                                await AuthService(FirebaseAuth.instance)
-                                    .uploadProduct(
-                              _file!,
-                              (FirebaseAuth.instance.currentUser?.uid)
-                                  as String,
-                              _titleController.text,
-                              dropDownValueUnit,
-                              dropDownValue,
-                              int.parse(_priceController.text),
-                            );
-                            res == 'success'
-                                ? showSnackBar(context, 'Product Added')
-                                : showSnackBar(context, 'Product dont added');
-                          } catch (e) {
-                            if (kDebugMode) {
-                              print(e.toString());
-                            }
-                          }
-                        },
-                      )
-                    : Container(),
+                Obx(
+                  () =>AbsorbPointer(
+                    absorbing: _file == null ? true : false,
+                        child:   addProductController.isProductUpload.value ? const Center(child: CircularProgressIndicator(),): ElevatedButton(
+                            child: const Text('Upload'),
+                            onPressed: () async {
+                              addProductController.isProductUpload.value = true ;
+                              try {
+                                String res =
+                                    await AuthService(FirebaseAuth.instance)
+                                        .uploadProduct(
+                                  _file!,
+                                  (FirebaseAuth.instance.currentUser?.uid)
+                                      as String,
+                                  _titleController.text,
+                                  dropDownValueUnit,
+                                  dropDownValue,
+                                  int.parse(_priceController.text),
+                                );
+                                addProductController.isProductUpload.value= false;
+                                _file = null;
+                                res == 'success'
+                                    ? Get.snackbar('Alert', 'Product Added')
+                                    : Get.snackbar('Alert', 'dont Product Added');
+                              } catch (e) {
+                                addProductController.isProductUpload.value= false;
+                                _file = null;
+                                if (kDebugMode) {
+                                  print(e.toString());
+                                }
+                              }
+                            },
+                          ),
+                      ),
+                ),
               ],
             ),
           ),

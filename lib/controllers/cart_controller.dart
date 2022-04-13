@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:milkoride/models/cart_model.dart';
 import 'package:get/get.dart';
 import 'package:milkoride/models/order_model.dart';
@@ -29,11 +31,13 @@ class CartController extends GetxController {
     if (cartList
         .where((element) => element.productId == cartProduct.productId)
         .isNotEmpty) {
+      Get.snackbar('product already added to cart',cartProduct.productName.toString(),icon: const Icon(Icons.shopping_cart));
       if (kDebugMode) {
         print('product already added');
       }
     } else {
       cartList.add(cartProduct);
+      Get.snackbar('product added to cart',cartProduct.productName.toString(),icon: const Icon(Icons.shopping_cart));
       if (kDebugMode) {
         print('product added');
       }

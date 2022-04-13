@@ -28,7 +28,7 @@ class AuthService {
   }
 
   Future<String> signUp(
-      String name, String email, String password, String role) async {
+      String name, String email, String password, String role,String address) async {
     try {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
@@ -43,7 +43,8 @@ class AuthService {
           'uid': user.uid,
           'email': email,
           'password': password,
-          'role': role
+          'role': role,
+          'address':address
         });
       });
       return "Signed Up";
@@ -64,7 +65,7 @@ class AuthService {
     }
   }
 
-  static Future<String> updateUser(String name, String newRole, String email ,String uid) async {
+  static Future<String> updateUser(String name, String newRole, String email ,String uid,String address) async {
     try {
       await FirebaseFirestore.instance
           .collection('users')
@@ -73,6 +74,7 @@ class AuthService {
         'name': name,
         'role': newRole,
         'email': email,
+        'address':address
         //'password': newPassword,
       });
       Get.defaultDialog(
