@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:milkoride/models/order_model.dart';
 import 'package:milkoride/services/auth_services.dart';
 import 'package:uuid/uuid.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CartController extends GetxController {
   static CartController instance = Get.find();
@@ -31,13 +32,16 @@ class CartController extends GetxController {
     if (cartList
         .where((element) => element.productId == cartProduct.productId)
         .isNotEmpty) {
-      Get.snackbar('product already added to cart',cartProduct.productName.toString(),icon: const Icon(Icons.shopping_cart));
+      Get.snackbar(
+          'product already added to cart', cartProduct.productName.toString(),
+          icon: const Icon(Icons.shopping_cart));
       if (kDebugMode) {
         print('product already added');
       }
     } else {
       cartList.add(cartProduct);
-      Get.snackbar('product added to cart',cartProduct.productName.toString(),icon: const Icon(Icons.shopping_cart));
+      Get.snackbar('product added to cart', cartProduct.productName.toString(),
+          icon: const Icon(Icons.shopping_cart));
       if (kDebugMode) {
         print('product added');
       }
@@ -70,6 +74,10 @@ class CartController extends GetxController {
     }
   }
 
+  Map deliveryBoy = {
+    'name': '',
+    'address': '',
+  };
   var uuid = const Uuid();
   Future<String> placeOrder() async {
     if (kDebugMode) {
@@ -77,13 +85,18 @@ class CartController extends GetxController {
     }
     String orderID = uuid.v4();
     OrderModel order = OrderModel(
-      userId: AuthService.getUid!,
-      orderId: orderID,
-      totalBill: TotalBill,
-      orderDate: DateTime.now(),
-      isDelivered: false,
-      orderList:getListMap(cartList),
-    );
+        userId: AuthService.getUid!,
+        orderId: orderID,
+        totalBill: TotalBill,
+        orderDate: DateTime.now(),
+        isDelivered: false,
+        deliveryAddress: await FirebaseFirestore.instance
+            .collection('users')
+            .doc(AuthService.getUid!)
+            .get()
+            .then((value) => value['address'].toString()),
+        orderList: getListMap(cartList),
+        deliveryBoy: deliveryBoy);
     String res = 'OrderPlaced';
     try {
       if (kDebugMode) {
@@ -93,22 +106,23 @@ class CartController extends GetxController {
           .collection('orders')
           .doc(AuthService.getUid!)
           .set(order.toMap());
-       res='OrderPlaced';
+      res = 'OrderPlaced';
       cartList.clear();
-      totalCartPrice.value=0;
+      totalCartPrice.value = 0;
     } catch (e) {
-     res=e.toString();
+      res = e.toString();
     }
     return res;
     //cartController.isLoading.value=true;
   }
-
 }
+
 dynamic getListMap(List<dynamic> items) {
   if (items == null) {
     return null;
   }
   List<Map<String, dynamic>> Items = [];
+  // List<CartModel> Items = [];
   items.forEach((element) {
     Items.add(element.toMap());
   });

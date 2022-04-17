@@ -1,11 +1,15 @@
 
+import 'package:milkoride/models/cart_model.dart';
+
 class OrderModel {
   late String userId;
   late int totalBill;
   late String orderId;
   late DateTime orderDate;
   late bool isDelivered;
-  late List orderList = [];
+  late String deliveryAddress;
+  List<dynamic>? orderList;
+  late Map deliveryBoy;
 
   OrderModel({
     required this.userId,
@@ -14,28 +18,38 @@ class OrderModel {
     required this.orderDate,
     required this.isDelivered,
     required this.orderList,
+    required this.deliveryAddress,
+    required this.deliveryBoy,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'userId':this.userId,
-      'totalBill': this.totalBill,
-      'orderId': this.orderId,
-      'orderDate': this.orderDate,
-      'isDelivered': this.isDelivered,
-      'orderList': this.orderList,
+      'userId':userId,
+      'totalBill': totalBill,
+      'orderId': orderId,
+      'orderDate': orderDate,
+      'isDelivered': isDelivered,
+      'orderList': orderList,
+      'deliveryAddress':deliveryAddress,
+      'deliveryBoy':deliveryBoy,
     };
   }
 
-  factory OrderModel.fromMap(Map<String, dynamic> map) {
-    return OrderModel(
-      userId: map['userId']as String,
-      totalBill: map['totalBill'] as int,
-      orderId: map['orderId'] as String,
-      orderDate: map['orderDate'] as DateTime,
-      isDelivered: map['isDelivered'] as bool,
-      orderList: map['orderList'] as List,
-    );
+  OrderModel.fromMap(Map<String, dynamic> map) {
+      userId= map['userId']as String;
+      totalBill= map['totalBill'] as int;
+      orderId=map['orderId'] as String;
+      orderDate=map['orderDate'].toDate();
+      isDelivered =map['isDelivered'] as bool;
+      deliveryAddress=map['deliveryAddress']as String;
+      deliveryBoy=map['deliveryBoy'] as Map;
+      if(map['orderList']!=null){
+        orderList = <CartModel>[];
+        (map['orderList'] as List).forEach((element) {
+          orderList!.add(CartModel.fromMap(element));
+        });
+      }
+
   }
 
 
