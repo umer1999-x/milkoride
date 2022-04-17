@@ -76,9 +76,35 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ListTile(
-                                    title: Text(order[index].userId.toString()),
-                                    subtitle: Text(
-                                        order[index].isDelivered.toString()),
+                                    title: Text(
+                                      'Customer Name: ' +
+                                          order[index]
+                                              .customerName
+                                              .toString()
+                                              .toUpperCase(),
+                                    ),
+                                    subtitle: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            order[index].isDelivered
+                                                ? const Text(
+                                                    'Status: ' "Delivered")
+                                                : const Text('Status: '
+                                                    "Not Deliver Yet"),
+                                          ],
+                                        ),
+                                        Text(
+                                          'Address: ' +
+                                              order[index]
+                                                  .deliveryAddress
+                                                  .toString()
+                                                  .toUpperCase(),
+                                        ),
+                                      ],
+                                    ),
+                                    trailing: Text('Total Bill: ' +
+                                        order[index].totalBill.toString()),
                                   ),
                                   SizedBox(
                                     height:
@@ -91,26 +117,55 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                       itemBuilder: (context, position) {
                                         return Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                .25,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                .5,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: NetworkImage(order[index]
-                                                    .orderList![position]
-                                                    .productImage
-                                                    .toString()),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    order[index]
+                                                        .orderList![position]
+                                                        .productName
+                                                        .toString()
+                                                        .toUpperCase(),
+                                                  ),
+                                                  Text(
+                                                    '  x' +
+                                                        order[index]
+                                                            .orderList![
+                                                                position]
+                                                            .quantity
+                                                            .toString(),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
+                                              Expanded(
+                                                child: Container(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      .25,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      .5,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    image: DecorationImage(
+                                                      fit: BoxFit.cover,
+                                                      image: NetworkImage(
+                                                        order[index]
+                                                            .orderList![
+                                                                position]
+                                                            .productImage
+                                                            .toString(),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         );
                                       },
@@ -170,7 +225,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                                       .delete();
                                                 },
                                                 icon: const Icon(
-                                                    Icons.cancel_outlined),
+                                                    Icons.cancel_rounded),
                                                 label:
                                                     const Text('Cancel Order'),
                                               ),
@@ -179,13 +234,16 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                         )
                                       : Center(
                                           child: ElevatedButton.icon(
-                                             style: ButtonStyle(
-                                               backgroundColor: MaterialStateProperty.all(Colors.lightBlue),
-                                             ),
+                                              style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.lightBlue),
+                                              ),
                                               onPressed: null,
-                                              icon:
-                                                  const Icon(Icons.done_outline_rounded),
-                                              label: const Text("Rider Assigned")),
+                                              icon: const Icon(
+                                                  Icons.done_outline_rounded),
+                                              label:
+                                                  const Text("Rider Assigned")),
                                         ),
                                 ],
                               ),

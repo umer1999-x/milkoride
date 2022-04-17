@@ -85,6 +85,11 @@ class CartController extends GetxController {
     }
     String orderID = uuid.v4();
     OrderModel order = OrderModel(
+        customerName: await FirebaseFirestore.instance
+            .collection('users')
+            .doc(AuthService.getUid!)
+            .get()
+            .then((value) => value['name'].toString()),
         userId: AuthService.getUid!,
         orderId: orderID,
         totalBill: TotalBill,
