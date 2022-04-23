@@ -89,6 +89,7 @@ class AdminScreen extends StatelessWidget with InputValidationMixin {
                           adminController.role.value = snap.docs[0]['role'];
                           adminController.password.value =
                               snap.docs[0]['password'];
+                          adminController.address.value=snap.docs[0]['address'];
                           adminController.ableToEdit.value = true;
                           adminController.ableToDelete.value = true;
                         } else {
@@ -104,6 +105,7 @@ class AdminScreen extends StatelessWidget with InputValidationMixin {
                           adminController.password.value = "";
                           adminController.uid.value = "";
                           adminController.name.value = "";
+                          adminController.address.value = "";
                         }
                       } else {
                         Get.defaultDialog(
@@ -133,6 +135,7 @@ class AdminScreen extends StatelessWidget with InputValidationMixin {
                                 adminController.email.value,
                                 adminController.role.value,
                                 adminController.name.value,
+                                  adminController.address.value,
                               ]);
                             },
                             child: Container(
@@ -170,6 +173,7 @@ class AdminScreen extends StatelessWidget with InputValidationMixin {
                                 adminController.password.value = "";
                                 adminController.uid.value = "";
                                 adminController.name.value = "";
+                                adminController.address.value = "";
                               } else {
                                 Get.defaultDialog(
                                   title: 'Alert',
@@ -183,6 +187,7 @@ class AdminScreen extends StatelessWidget with InputValidationMixin {
                                 adminController.password.value = "";
                                 adminController.uid.value = "";
                                 adminController.name.value = "";
+                                adminController.address.value = "";
                               }
                             },
                             child: Container(
@@ -223,6 +228,7 @@ class AdminScreen extends StatelessWidget with InputValidationMixin {
                             Text('Email : ' + adminController.email.value),
                             Text('UID : ' + adminController.uid.value),
                             Text('Role : ' + adminController.role.value),
+                            Text('Role : ' + adminController.address.value),
                           ],
                         ),
                       ),

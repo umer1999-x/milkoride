@@ -19,6 +19,11 @@ class _CustomerPlaceOrderState extends State<CustomerPlaceOrder> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Place a order'),
+          actions: [
+            IconButton(onPressed: (){
+              Get.to(() => const CartScreen());
+            }, icon:const Icon(CupertinoIcons.cart))
+          ],
         ),
         body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('products').snapshots(),
@@ -49,13 +54,13 @@ class _CustomerPlaceOrderState extends State<CustomerPlaceOrder> {
                       },
                       itemCount: snapshot.data!.docs.length,
                     ),
-                    FloatingActionButton(
-                      elevation:8.0,
-                      onPressed: () {
-                        Get.to(() => CartScreen());
-                      },
-                      child: const Icon(Icons.shopping_cart),
-                    ),
+                    // FloatingActionButton(
+                    //   elevation:8.0,
+                    //   onPressed: () {
+                    //     Get.to(() => CartScreen());
+                    //   },
+                    //   child: const Icon(Icons.shopping_cart),
+                    // ),
 
                   ],
                 ),

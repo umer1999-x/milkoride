@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 import '../../screens/customer_screens/cart_screen.dart';
 import '../../screens/customer_screens/customer_order_place_screen.dart';
 class CustomerDrawer extends StatelessWidget {
@@ -16,8 +16,8 @@ class CustomerDrawer extends StatelessWidget {
             ),
             child: Center(
               child: Row(
-                children: const [
-                  Expanded(
+                children: [
+                  const Expanded(
                     child: Icon(
                       Icons.account_circle,
                       color: Colors.white,
@@ -28,8 +28,8 @@ class CustomerDrawer extends StatelessWidget {
                   Expanded(
                     flex: 6,
                     child: Text(
-                      "Customer",
-                      style: TextStyle(
+                      'Customer'.tr,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                       ),
@@ -40,9 +40,9 @@ class CustomerDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: const Text("Place a Order"),
+            title: Text('Place a Order'.tr),
             leading: IconButton(
-              icon: const Icon(Icons.wine_bar_sharp),
+              icon: const Icon(Icons.category_outlined),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -53,27 +53,27 @@ class CustomerDrawer extends StatelessWidget {
                   builder: (BuildContext context) => CustomerPlaceOrder()));
             },
           ),
+          // ListTile(
+          //   title: const Text("Order History"),
+          //   leading: IconButton(
+          //     icon: const Icon(Icons.history),
+          //     onPressed: () {
+          //       Navigator.of(context).pop();
+          //     },
+          //   ),
+          //   onTap: () {
+          //     Navigator.of(context).pop();
+          //     // Navigator.of(context).push(
+          //     //   MaterialPageRoute(
+          //     //     builder: (BuildContext context) => const AddProduct(),
+          //     //   ),
+          //     // );
+          //   },
+          // ),
           ListTile(
-            title: const Text("Order History"),
+            title: Text('Cart'.tr),
             leading: IconButton(
-              icon: const Icon(Icons.history),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: (BuildContext context) => const AddProduct(),
-              //   ),
-              // );
-            },
-          ),
-          ListTile(
-            title: const Text("Cart"),
-            leading: IconButton(
-              icon: const Icon(Icons.shopping_cart),
+              icon: const Icon(Icons.shopping_cart_outlined),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -87,20 +87,20 @@ class CustomerDrawer extends StatelessWidget {
               );
             },
           ),
-          ListTile(
-            title: const Text("Profile Information"),
-            leading: IconButton(
-              icon: const Icon(Icons.account_circle),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              // Navigator.of(context).push(MaterialPageRoute(
-              //     builder: (BuildContext context) => CreateUser()));
-            },
-          ),
+          // ListTile(
+          //   title: const Text("Profile Information"),
+          //   leading: IconButton(
+          //     icon: const Icon(Icons.account_circle),
+          //     onPressed: () {
+          //       Navigator.of(context).pop();
+          //     },
+          //   ),
+          //   onTap: () {
+          //     Navigator.of(context).pop();
+          //     // Navigator.of(context).push(MaterialPageRoute(
+          //     //     builder: (BuildContext context) => CreateUser()));
+          //   },
+          // ),
         ],
       ),
     );

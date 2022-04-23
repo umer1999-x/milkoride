@@ -21,7 +21,7 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('SignUp'),
+          title: Text('Signup'.tr),
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -40,9 +40,9 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
                 ),
                 TextFormField(
                   controller: nameController,
-                  decoration: const InputDecoration(
-                    labelText: "Name",
-                    border: OutlineInputBorder(
+                  decoration: InputDecoration(
+                    labelText: 'Name'.tr,
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
                   ),
@@ -50,7 +50,7 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
                     if (isNameValid(name)) {
                       return null;
                     } else {
-                      return 'Enter a valid name';
+                      return 'Enter a valid name'.tr;
                     }
                   },
                 ),
@@ -59,9 +59,9 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
                 ),
                 TextFormField(
                   controller: emailController,
-                  decoration: const InputDecoration(
-                    labelText: "Email",
-                    border: OutlineInputBorder(
+                  decoration: InputDecoration(
+                    labelText:  'Email'.tr,
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
                   ),
@@ -69,7 +69,7 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
                     if (isEmailValid(email)) {
                       return null;
                     } else {
-                      return 'Enter a valid email address';
+                      return 'Enter a valid email address'.tr;
                     }
                   },
                 ),
@@ -78,9 +78,9 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
                 ),
                 TextFormField(
                   controller: passwordController,
-                  decoration: const InputDecoration(
-                    labelText: "Password",
-                    border: OutlineInputBorder(
+                  decoration: InputDecoration(
+                    labelText: 'Password'.tr,
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
                   ),
@@ -90,7 +90,7 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
                     if (isPasswordValid(password)) {
                       return null;
                     } else {
-                      return 'Enter a valid password';
+                      return 'Enter a valid password'.tr;
                     }
                   },
                 ),
@@ -99,9 +99,9 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
                 ),
                 TextFormField(
                   controller: addressController,
-                  decoration: const InputDecoration(
-                    labelText: "Shipping Address",
-                    border: OutlineInputBorder(
+                  decoration: InputDecoration(
+                    labelText: 'Shipping Address'.tr,
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
                   ),
@@ -109,7 +109,7 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
                     if (address!.isNotEmpty && address.contains(RegExp(r'[a-zA-Z0-9#, ]')) && address.length >= 6) {
                       return null;
                     } else {
-                      return 'Enter a valid address';
+                      return 'Enter a valid address'.tr;
                     }
                   },
                 ),
@@ -143,14 +143,15 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
                                 Get.offAllNamed('/login');
 
                                 Get.defaultDialog(
-                                  title: 'Alert',
-                                  content: const Text('SignUp Completed'),
+                                  title: 'Alert'.tr,
+                                  radius: 50,
+                                  content: Text('SignUp Completed'.tr),
                                 );
                               } else {
                                 Get.defaultDialog(
-                                  title: 'Alert',
-                                  content: const Text(
-                                      'User Already exists or Something went wrong'),
+                                  title: 'Alert'.tr,
+                                  content: Text(
+                                      'User Already exists or Something went wrong'.tr),
                                 );
                                 emailController.clear();
                                 passwordController.clear();
@@ -159,8 +160,8 @@ class SignUpScreen extends StatelessWidget with InputValidationMixin {
                               signController.isLoading.value = false;
                             }
                           },
-                          child: const Text(
-                            'Sign Up',
+                          child: Text(
+                            'Signup'.tr,
                             style: TextStyle(
                               color: Colors.black,
                             ),

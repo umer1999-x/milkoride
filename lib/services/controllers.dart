@@ -6,6 +6,7 @@ import 'package:milkoride/controllers/sign_up_controller.dart';
 import 'package:milkoride/models/add_product_model.dart';
 
 import '../controllers/cart_controller.dart';
+import '../controllers/edit_product_controller.dart';
 import '../controllers/login_controller.dart';
 
 CartController cartController = CartController.instance;
@@ -14,4 +15,5 @@ SignUpController signController = SignUpController.instance;
 AdminController adminController = AdminController.instance;
 EditController editController = EditController.instance;
 CreateUserController createUserController = CreateUserController.instance;
-AddProductController addProductController=AddProductController.instance;
+AddProductController addProductController = AddProductController.instance;
+EditProductController editProductController = EditProductController.instance;

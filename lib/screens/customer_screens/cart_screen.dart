@@ -31,11 +31,11 @@ class CartScreen extends StatelessWidget {
                     color: Colors.blue,
                     child: CartTile(
                       productImageUrl: product.productImage,
-                      productName: product.productName,
+                      productName: product.productName.tr,
                       index: index,
                       productItemCount: product.quantity,
                       productPrice: product.productPrice,
-                      productUnit: product.productUnit,
+                      productUnit: product.productUnit.tr,
                       orderType: product.orderType,
                     ),
                   );
@@ -72,9 +72,9 @@ class CartScreen extends StatelessWidget {
                             fontStyle: FontStyle.italic,
                           ),
                         ),
-                        child: Text('Order: ' +
+                        child: Text('Order'.tr +
                             cartController.totalCartPrice.string +
-                            ' Rs'),
+                            ' Rs '.tr),
                       ),
                     ),
             ),
@@ -123,9 +123,9 @@ class CartTile extends StatelessWidget {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Rs ' + productPrice.toString()),
-                  Text('Per ' + productUnit),
-                  Text('OrderType: ' + orderType),
+                  Text(' Rs '.tr + productPrice.toString()),
+                  Text(' Per '.tr + productUnit),
+                  Text('OrderType'.tr + orderType),
                 ],
               ),
             ),

@@ -14,8 +14,8 @@ class ProductCard extends StatefulWidget {
 
 class _ProductCardState extends State<ProductCard> {
   final RxInt _quantity = 1.obs;
-  String dropDownValue = 'Daily';
-  var items = ['Daily', 'Alternate Days', 'Weekly'];
+  String dropDownValue = 'Daily'.tr;
+  var items = ['Daily'.tr, 'Alternate Days'.tr, 'Weekly'.tr];
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _ProductCardState extends State<ProductCard> {
           Row(
             children: [
               Text(
-                widget.snap['productName'].toString(),
+                widget.snap['productName'.tr].toString(),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
@@ -49,7 +49,7 @@ class _ProductCardState extends State<ProductCard> {
                 ),
               ),
               Text(
-                ' Rs ' + widget.snap['productPrice'].toString(),
+                ' Rs '.tr + widget.snap['productPrice'].toString(),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
@@ -57,7 +57,7 @@ class _ProductCardState extends State<ProductCard> {
                 ),
               ),
               Text(
-                ' Per ' + widget.snap['productUnit'],
+                ' Per '.tr + widget.snap['productUnit'.tr],
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
@@ -91,9 +91,9 @@ class _ProductCardState extends State<ProductCard> {
                   cartController.addToCart(productCart);
                   cartController.cartPrice();
                 },
-                child: const Text(
-                  'Add to cart',
-                  style: TextStyle(
+                child: Text(
+                  'Add to cart'.tr,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.w700,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import "package:cloud_firestore/cloud_firestore.dart";
+import 'package:milkoride/screens/admin_screens/edit_product.dart';
 
 class ShowProduct extends StatefulWidget {
   const ShowProduct({Key? key}) : super(key: key);
@@ -25,8 +26,7 @@ class _ShowProductState extends State<ShowProduct> {
                 child: CircularProgressIndicator(),
               );
             }
-            return ListView(
-                 children: getProductItems(snapshot, context));
+            return ListView(children: getProductItems(snapshot, context));
           },
         ),
       ),
@@ -38,7 +38,7 @@ getProductItems(AsyncSnapshot<QuerySnapshot> snapshot, BuildContext context) {
   return snapshot.data?.docs.map(
     (doc) {
       return Container(
-        padding:const EdgeInsets.all(8) ,
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -49,7 +49,36 @@ getProductItems(AsyncSnapshot<QuerySnapshot> snapshot, BuildContext context) {
             leading: Image.network(
               doc["productPicUrl"],
             ),
-            trailing: Text(doc["productUnit"].toString()),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(doc["productUnit"].toString()),
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditProduct(
+                            doc["productId"].toString(),
+                            doc["productName"].toString(),
+                            doc["productPrice"].toString(),
+                            doc["productUnit"].toString(),
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.edit)),
+                IconButton(
+                  onPressed: () async {
+                    await FirebaseFirestore.instance
+                        .collection('products')
+                        .doc(doc['productId'].toString())
+                        .delete();
+                  },
+                  icon: const Icon(Icons.delete),
+                ),
+              ],
+            ),
             title: Text(doc["productName"].toString()),
             // onTap: () {
             //   Navigator.push(

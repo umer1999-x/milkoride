@@ -10,6 +10,7 @@ class AdminController extends GetxController{
   RxString uid = "".obs;
   RxString role = "".obs;
   RxString password = "".obs;
+  RxString address = "".obs;
 
 
 }

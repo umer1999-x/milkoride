@@ -2,12 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:milkoride/controllers/add_product_controller.dart';
 import 'package:milkoride/controllers/create_user_controller.dart';
+import 'package:milkoride/controllers/edit_product_controller.dart';
 import 'package:milkoride/controllers/edituser_controller.dart';
 import 'package:milkoride/controllers/login_controller.dart';
 import 'package:milkoride/controllers/sign_up_controller.dart';
 import 'package:milkoride/screens/login_signup_screens/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:milkoride/translation.dart';
 import 'controllers/admin_controller.dart';
 import 'controllers/cart_controller.dart';
 
@@ -21,6 +23,7 @@ void main() async {
   Get.put(EditController());
   Get.put(CreateUserController());
   Get.put(AddProductController());
+  Get.put(EditProductController());
   runApp(MyApp());
 }
 
@@ -30,6 +33,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      translations: LocaleString(),
+      locale: const Locale('en', 'US'),
       theme: ThemeData(
         fontFamily: GoogleFonts.openSans().fontFamily,
         visualDensity: const VisualDensity(vertical: 1, horizontal: 1),
@@ -37,7 +42,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
-        '/login':(context)=> LoginScreen(),
+        '/login': (context) => LoginScreen(),
       },
       title: "Milkoride",
     );

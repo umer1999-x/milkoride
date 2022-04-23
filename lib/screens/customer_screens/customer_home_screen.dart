@@ -17,19 +17,25 @@ class CustomerScreen extends StatelessWidget {
       child: Scaffold(
         drawer: const CustomerDrawer(),
         appBar: AppBar(
-          title: const Text('Customer Screen'),
+          title: Text('Customer Screen'.tr),
           actions: [
-            TextButton(
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                ),
+            // TextButton(
+            //     style: TextButton.styleFrom(
+            //       primary: Colors.white,
+            //     ),
+            //     onPressed: () {
+            //       FirebaseAuth.instance.signOut();
+            //       Get.offAndToNamed('/login');
+            //     },
+            //     child: const Text(
+            //       'Sign Out',
+            //     )),
+            IconButton(
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
                   Get.offAndToNamed('/login');
                 },
-                child: const Text(
-                  'Sign Out',
-                )),
+                icon: Icon(Icons.logout_outlined)),
           ],
         ),
         body: StreamBuilder(
@@ -67,11 +73,28 @@ class CustomerScreen extends StatelessWidget {
                                 color: Colors.blue,
                                 child: ListTile(
                                   contentPadding: const EdgeInsets.all(8),
-                                  title: Text(orderList[index].productName),
-                                  trailing: Text(orderList[index]
-                                      .quantity
-                                      .value
-                                      .toString()),
+                                  title: Text(orderList[index].productName.tr),
+                                  trailing: SizedBox(
+                                    width: 70,
+                                    height: 50,
+                                    child: Row(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Text('quantity '.tr +
+                                                orderList[index]
+                                                    .quantity
+                                                    .value
+                                                    .toString()),
+                                            Text(orderList[index]
+                                                .productUnit
+                                                .tr
+                                                .toString()),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                   leading: Image.network(
                                     orderList[index].productImage.toString(),
                                   ),
@@ -89,9 +112,9 @@ class CustomerScreen extends StatelessWidget {
                               ),
                               onPressed: null,
                               child: Text(
-                                'Total Bill ' +
+                                'Total Bill '.tr +
                                     snapshot.data!['totalBill'].toString() +
-                                    ' PKR',
+                                    ' PKR'.tr,
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
@@ -108,15 +131,15 @@ class CustomerScreen extends StatelessWidget {
                                 ),
                                 onPressed: null,
                                 child: snapshot.data!['isDelivered']
-                                    ? const Text(
-                                        'Delivered',
-                                        style: TextStyle(
+                                    ? Text(
+                                        'Delivered'.tr,
+                                        style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold),
                                       )
-                                    : const Text('Not Delivered',
-                                        style: TextStyle(
+                                    : Text('Not Delivered'.tr,
+                                        style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold)),
@@ -129,8 +152,8 @@ class CustomerScreen extends StatelessWidget {
                   ),
                 );
               } else {
-                return const Center(
-                  child: Text('No Order Exist'),
+                return Center(
+                  child: Text('No Order Exist'.tr),
                 );
               }
             } catch (e) {

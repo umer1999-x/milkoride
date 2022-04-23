@@ -34,9 +34,14 @@ mixin InputValidationMixin {
   }
 
   bool isNameValid(String? name) {
-    Pattern pattern = r'^[a-zA-Z0-9]+$';
+    Pattern pattern = r'^[a-zA-Z0-9 ]+$';
     RegExp regex = RegExp(pattern.toString());
     return regex.hasMatch(name!);
+  }
+  bool isPriceValid(String? price) {
+    Pattern pattern = r'^[0-9]+$';
+    RegExp regex = RegExp(pattern.toString());
+    return regex.hasMatch(price!);
   }
 }
 

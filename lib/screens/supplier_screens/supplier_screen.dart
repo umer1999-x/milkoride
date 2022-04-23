@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/widgets.dart';
 import 'package:milkoride/models/order_model.dart';
-import 'package:milkoride/models/rider_model.dart';
 import '../../widgets/supplier_screen_widgets/supplier_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -24,7 +22,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
       child: Scaffold(
         drawer: const SupplierDrawer(),
         appBar: AppBar(
-          title: const Text('Supplier Screen'),
+          title: Text('Supplier Screen'.tr),
           actions: [
             TextButton(
                 style: TextButton.styleFrom(
@@ -77,7 +75,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                 children: [
                                   ListTile(
                                     title: Text(
-                                      'Customer Name: ' +
+                                      'Customer Name'.tr +
                                           order[index]
                                               .customerName
                                               .toString()
@@ -88,14 +86,14 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                         Row(
                                           children: [
                                             order[index].isDelivered
-                                                ? const Text(
-                                                    'Status: ' "Delivered")
-                                                : const Text('Status: '
-                                                    "Not Deliver Yet"),
+                                                ? Text('Status'.tr +
+                                                    'Delivered'.tr)
+                                                : Text('Status'.tr+
+                                                    'Not Deliver Yet'.tr),
                                           ],
                                         ),
                                         Text(
-                                          'Address: ' +
+                                          'Address'.tr +
                                               order[index]
                                                   .deliveryAddress
                                                   .toString()
@@ -103,7 +101,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                         ),
                                       ],
                                     ),
-                                    trailing: Text('Total Bill: ' +
+                                    trailing: Text('Total Bill'.tr +
                                         order[index].totalBill.toString()),
                                   ),
                                   SizedBox(
@@ -207,7 +205,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                                 icon: const Icon(
                                                     Icons.copy_outlined),
                                                 label:
-                                                    const Text('Assign Rider'),
+                                                    Text('Assign Rider'.tr),
                                               ),
                                             ),
                                             const SizedBox(
@@ -227,7 +225,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                                 icon: const Icon(
                                                     Icons.cancel_rounded),
                                                 label:
-                                                    const Text('Cancel Order'),
+                                                Text('Cancel Order'.tr),
                                               ),
                                             ),
                                           ],
@@ -243,15 +241,15 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                               icon: const Icon(
                                                   Icons.done_outline_rounded),
                                               label:
-                                                  const Text("Rider Assigned")),
+                                                   Text('Rider Assigned'.tr)),
                                         ),
                                 ],
                               ),
                             );
                           });
                     } else {
-                      return const Center(
-                        child: Text('No Order Exist'),
+                      return Center(
+                        child: Text('No Order Exist'.tr),
                       );
                     }
                   } catch (e) {

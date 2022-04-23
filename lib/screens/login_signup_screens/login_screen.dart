@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget with InputValidationMixin {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final formGlobalKey = GlobalKey<FormState>();
-
+  var locale = Get.locale;
   void checkRole() async {
     User? user = FirebaseAuth.instance.currentUser;
     final DocumentSnapshot snap = await FirebaseFirestore.instance
@@ -49,7 +49,22 @@ class LoginScreen extends StatelessWidget with InputValidationMixin {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('LogIn'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  if (locale.toString() == 'Ur_Pak') {
+                    locale = const Locale('en', 'US');
+                    Get.updateLocale(locale!);
+                  } else if (locale.toString() == 'en_US') {
+                    locale = const Locale('Ur', 'Pak');
+                    Get.updateLocale(locale!);
+                  }
+                  //print(locale);
+                },
+                icon: const Icon(Icons.translate_outlined))
+            //ToggleButtons(children: children, isSelected: isSelected)
+          ],
+          title: Text('LogIn'.tr),
           centerTitle: true,
         ),
         body: Padding(
@@ -72,9 +87,10 @@ class LoginScreen extends StatelessWidget with InputValidationMixin {
                 ),
                 TextFormField(
                   controller: emailController,
-                  decoration: const InputDecoration(
-                    labelText: "Email",
-                    border: OutlineInputBorder(
+                  decoration: InputDecoration(
+                    labelText: "Email".tr,
+                    //Get.locale.toString() == 'en_US' ? 'Email' : 'ای میل',
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
                   ),
@@ -82,7 +98,10 @@ class LoginScreen extends StatelessWidget with InputValidationMixin {
                     if (isEmailValid(email)) {
                       return null;
                     } else {
-                      return 'Enter a valid email address';
+                      return 'Enter a valid email address'.tr;
+                      //Get.locale.toString() == 'en_US'
+                      // ? 'Enter a valid email address'
+                      // : 'درست ای میل کا اندراج کریں';
                     }
                   },
                 ),
@@ -91,9 +110,12 @@ class LoginScreen extends StatelessWidget with InputValidationMixin {
                 ),
                 TextFormField(
                   controller: passwordController,
-                  decoration: const InputDecoration(
-                    labelText: "Password",
-                    border: OutlineInputBorder(
+                  decoration: InputDecoration(
+                    labelText: 'Password'.tr,
+                    //Get.locale.toString() == 'en_US'
+                    //     ? 'Password'
+                    //     : 'پاس ورڈ',
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
                   ),
@@ -103,7 +125,10 @@ class LoginScreen extends StatelessWidget with InputValidationMixin {
                     if (isPasswordValid(password)) {
                       return null;
                     } else {
-                      return 'Enter a valid password';
+                      return 'Enter a valid password'.tr;
+                      // Get.locale.toString() == 'en_US'
+                      //     ? 'Enter a valid password'
+                      //     : 'ایک درست پاس ورڈ درج کریں۔';
                     }
                   },
                 ),
@@ -133,14 +158,21 @@ class LoginScreen extends StatelessWidget with InputValidationMixin {
                               if (res.toString() == 'Logged In') {
                                 checkRole();
                                 Get.defaultDialog(
-                                  title: 'Alert',
-                                  content: const Text('SigIn Completed'),
-
+                                  title:'Alert'.tr,
+                                  //Get.locale.toString() == 'en_US'
+                                  //     ? 'Alert'
+                                  //     : 'الرٹ',
+                                  content: Text('SigIn Completed'.tr),
+                                  radius: 50,
                                 );
                               } else {
                                 Get.defaultDialog(
-                                  title: 'Alert',
-                                  content: const Text('SigIn went wrong'),
+                                  title: 'Alert'.tr,
+                                  // Get.locale.toString() == 'en_US'
+                                  //     ? 'Alert'
+                                  //     : 'الرٹ',
+                                  content: Text('Wrong'.tr),
+                                  radius: 50,
                                 );
                                 emailController.clear();
                                 passwordController.clear();
@@ -148,9 +180,9 @@ class LoginScreen extends StatelessWidget with InputValidationMixin {
                               loginController.isLoading.value = false;
                             }
                           },
-                          child: const Text(
-                            'LogIn',
-                            style: TextStyle(
+                          child: Text(
+                            'LogIn'.tr,
+                            style: const TextStyle(
                               color: Colors.black,
                             ),
                           ),
@@ -163,13 +195,13 @@ class LoginScreen extends StatelessWidget with InputValidationMixin {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Don\'t Have an Account? '),
+                    Text('Account'.tr),
                     InkWell(
                       onTap: () {
                         Get.to(() => SignUpScreen());
                       },
-                      child: const Text(
-                        ' SignUp',
+                      child: Text(
+                        'Signup'.tr,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.blue),
                       ),

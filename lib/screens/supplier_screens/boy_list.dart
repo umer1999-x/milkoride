@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
 class DeliveryBoyList extends StatefulWidget {
   const DeliveryBoyList({Key? key, required this.docId}) : super(key: key);
@@ -18,7 +19,7 @@ class _DeliveryBoyListState extends State<DeliveryBoyList> {
         child: Column(
           children: [
             AppBar(
-              title: const Text('Select Rider'),
+              title: Text('Select Rider'.tr),
             ),
             StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
