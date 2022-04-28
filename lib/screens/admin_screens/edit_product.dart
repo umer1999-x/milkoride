@@ -11,7 +11,7 @@ class EditProduct extends StatefulWidget {
       : super(key: key);
   final String productId;
   final String productName;
-  final String productPrice;
+  final int productPrice;
   final String productUnit;
 
   @override
@@ -115,8 +115,7 @@ class _EditProductState extends State<EditProduct> with InputValidationMixin {
                             if (formGlobalKey.currentState!.validate()) {
                               final String productname =
                                   nameController.text.trim();
-                              final String productprice =
-                                  priceController.text.trim();
+                              final int productprice = int.parse(priceController.text.trim());
                               final String productunit =
                                   unitController.text.trim();
 

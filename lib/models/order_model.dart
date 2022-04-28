@@ -2,6 +2,7 @@
 import 'package:milkoride/models/cart_model.dart';
 
 class OrderModel {
+  late String docId;
   late String customerName;
   late String userId;
   late int totalBill;
@@ -13,6 +14,7 @@ class OrderModel {
   late Map deliveryBoy;
 
   OrderModel({
+    required this.docId,
     required this.customerName,
     required this.userId,
     required this.orderId,
@@ -26,6 +28,7 @@ class OrderModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'docId':docId,
       'customerName':customerName,
       'userId':userId,
       'totalBill': totalBill,
@@ -39,6 +42,7 @@ class OrderModel {
   }
 
   OrderModel.fromMap(Map<String, dynamic> map) {
+    docId=map['docId'] as String;
     customerName=map['customerName'] as String;
       userId= map['userId']as String;
       totalBill= map['totalBill'] as int;

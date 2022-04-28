@@ -61,7 +61,7 @@ getProductItems(AsyncSnapshot<QuerySnapshot> snapshot, BuildContext context) {
                           builder: (context) => EditProduct(
                             doc["productId"].toString(),
                             doc["productName"].toString(),
-                            doc["productPrice"].toString(),
+                            doc["productPrice"],
                             doc["productUnit"].toString(),
                           ),
                         ),

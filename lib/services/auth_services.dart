@@ -13,6 +13,7 @@ class AuthService {
   final FirebaseAuth _auth;
   static final FirebaseFirestore firestore = FirebaseFirestore.instance;
   static String? get getUid => FirebaseAuth.instance.currentUser?.uid.toString();
+  static String? get getEmail => FirebaseAuth.instance.currentUser?.email.toString();
   //static String? get getAddress => FirebaseAuth.instance.currentUser?.toString();
 
   AuthService(this._auth);

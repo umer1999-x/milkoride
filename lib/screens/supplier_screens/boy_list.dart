@@ -49,8 +49,10 @@ class _DeliveryBoyListState extends State<DeliveryBoyList> {
                             .doc(widget.docId)
                             .update({
                           "deliveryBoy": {
+                            'email':data['email'].toString(),
                             "name": data['name'].toString(),
                             'address': data['address'].toString(),
+
                           }
                         });
                         Navigator.pop(context);

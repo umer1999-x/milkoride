@@ -38,33 +38,29 @@ class _ProductCardState extends State<ProductCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                widget.snap['productName'.tr].toString(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                ' Rs '.tr + widget.snap['productPrice'].toString(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                ' Per '.tr + widget.snap['productUnit'.tr],
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+          Text(
+            widget.snap['productName'].toString().tr,
+            style: const TextStyle(
+              color: Colors.blue,
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            ' Rs '.tr + widget.snap['productPrice'].toString(),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            ' Per '.tr + widget.snap['productUnit'].toString().tr,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(
             height: 100,
@@ -84,7 +80,7 @@ class _ProductCardState extends State<ProductCard> {
                     productImage: widget.snap['productPicUrl'].toString(),
                     productPrice: widget.snap['productPrice'],
                     productUnit: widget.snap['productUnit'].toString(),
-                    cost:widget.snap['productPrice'] * _quantity.value,
+                    cost: widget.snap['productPrice'] * _quantity.value,
                     quantity: _quantity,
                     orderType: dropDownValue.toString(),
                   );

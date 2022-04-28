@@ -26,9 +26,8 @@ class CartScreen extends StatelessWidget {
                   CartModel product = cartController.cartList[index];
                   return Card(
                     margin: const EdgeInsets.all(6),
-                    shadowColor: Colors.lightBlue,
                     elevation: 5.0,
-                    color: Colors.blue,
+                    color: Colors.blue[50],
                     child: CartTile(
                       productImageUrl: product.productImage,
                       productName: product.productName.tr,
@@ -65,7 +64,7 @@ class CartScreen extends StatelessWidget {
                         },
                         style: TextButton.styleFrom(
                           elevation: 5,
-                          primary: Colors.purple,
+                          primary: Colors.white,
                           backgroundColor: Colors.blue,
                           textStyle: const TextStyle(
                             fontSize: 24,
@@ -119,10 +118,12 @@ class CartTile extends StatelessWidget {
           Expanded(
             flex: 5,
             child: ListTile(
-              title: Text(productName),
+              // title: Text(productName),
               subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Text(productName),
                   Text(' Rs '.tr + productPrice.toString()),
                   Text(' Per '.tr + productUnit),
                   Text('OrderType'.tr + orderType),
@@ -139,7 +140,7 @@ class CartTile extends StatelessWidget {
               decoration: const BoxDecoration(
                 // borderRadius: BorderRadius.circular(22),
                 shape: BoxShape.circle,
-                color: Colors.red,
+                color: Colors.blue,
               ),
               child: IconButton(
                 iconSize: 30,

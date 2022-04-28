@@ -20,9 +20,11 @@ class _CustomerPlaceOrderState extends State<CustomerPlaceOrder> {
         appBar: AppBar(
           title: const Text('Place a order'),
           actions: [
-            IconButton(onPressed: (){
-              Get.to(() => const CartScreen());
-            }, icon:const Icon(CupertinoIcons.cart))
+            IconButton(
+                onPressed: () {
+                  Get.to(() => const CartScreen());
+                },
+                icon: const Icon(CupertinoIcons.cart))
           ],
         ),
         body: StreamBuilder(
@@ -61,7 +63,6 @@ class _CustomerPlaceOrderState extends State<CustomerPlaceOrder> {
                     //   },
                     //   child: const Icon(Icons.shopping_cart),
                     // ),
-
                   ],
                 ),
               ),

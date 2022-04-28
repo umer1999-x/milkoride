@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: unnecessary_null_comparison, avoid_function_literals_in_foreach_calls, non_constant_identifier_names
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:milkoride/models/cart_model.dart';
@@ -34,11 +35,10 @@ class CartController extends GetxController {
         .where((element) => element.productId == cartProduct.productId)
         .isNotEmpty) {
       Get.snackbar(
-        'product already added to cart',
-        cartProduct.productName.toString(),
+        'product already added to cart'.tr,
+        cartProduct.productName.toString().tr,
         icon: const Icon(Icons.shopping_cart),
-        backgroundColor: Colors.white70,
-        barBlur: 0.0,
+        backgroundColor: Colors.white,
       );
       if (kDebugMode) {
         print('product already added');
@@ -46,11 +46,10 @@ class CartController extends GetxController {
     } else {
       cartList.add(cartProduct);
       Get.snackbar(
-        'product added to cart',
-        cartProduct.productName.toString(),
+        'product added to cart'.tr,
+        cartProduct.productName.toString().tr,
         icon: const Icon(Icons.shopping_cart),
-        backgroundColor: Colors.white70,
-        barBlur: 0.0,
+        backgroundColor: Colors.white,
       );
       if (kDebugMode) {
         print('product added');
@@ -85,6 +84,7 @@ class CartController extends GetxController {
   }
 
   Map deliveryBoy = {
+    'email': '',
     'name': '',
     'address': '',
   };
@@ -95,6 +95,7 @@ class CartController extends GetxController {
     }
     String orderID = uuid.v4();
     OrderModel order = OrderModel(
+        docId: '',
         customerName: await FirebaseFirestore.instance
             .collection('users')
             .doc(AuthService.getUid!)
@@ -117,37 +118,27 @@ class CartController extends GetxController {
       if (kDebugMode) {
         print('here');
       }
-      //print(int.parse(AuthService.firestore.collection('orders').doc(AuthService.getUid!).snapshots().length.toString()));
-      List<dynamic> res1 = await AuthService.firestore
+
+      await FirebaseFirestore.instance
           .collection('orders')
-          .doc(AuthService.getUid)
-          .get()
-          .then((value) => value.data()?['orderList']);
-      if (kDebugMode) {
-        print('RES: ' + res1.toString());
-      }
-      if (res1.isEmpty) {
-        await AuthService.firestore
+          .add(order.toMap())
+          .then((value) {
+        return FirebaseFirestore.instance
             .collection('orders')
-            .doc(AuthService.getUid!)
-            .set(order.toMap());
-      } else {
-        await AuthService.firestore
-            .collection('orders')
-            .doc(AuthService.getUid!)
+            .doc(value.id.toString())
             .update({
-          'totalBill': FieldValue.increment(totalCartPrice.value),
-          'orderList': FieldValue.arrayUnion(getListMap(cartList)),
-          'orderDate': DateTime.now()
-          //order.toMap()
+          'docId': value.id.toString(),
         });
-      }
+      });
+
       res = 'OrderPlaced';
       cartList.clear();
+      Get.snackbar('OrderPlaced'.tr, 'Your Order Has Been Placed'.tr,
+          backgroundColor: Colors.white);
       totalCartPrice.value = 0;
       Get.offAll(() => const CustomerScreen());
     } catch (e) {
-      res = e.toString();
+      res = e.toString() + 'hhhhh';
     }
     return res;
     //cartController.isLoading.value=true;

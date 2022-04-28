@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:milkoride/screens/admin_screens/admin.dart';
+import 'package:milkoride/screens/rider_screens/rider_screen.dart';
 import 'package:milkoride/screens/supplier_screens/supplier_screen.dart';
 import 'package:milkoride/screens/customer_screens/customer_home_screen.dart';
 import 'package:milkoride/services/auth_services.dart';
@@ -35,6 +36,9 @@ class LoginScreen extends StatelessWidget with InputValidationMixin {
       navigateNext(AdminScreen());
     } else if (loginController.roleAssign == 'supplier') {
       navigateNext(const SupplierScreen());
+    }
+    else if(loginController.roleAssign=='rider'){
+      navigateNext(const RiderScreen());
     }
   }
 

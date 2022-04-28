@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:milkoride/screens/admin_screens/add_product.dart';
+import 'package:milkoride/screens/admin_screens/create_user_screen.dart';
+import 'package:milkoride/screens/customer_screens/order_histroy.dart';
 import '../../screens/admin_screens/show_products.dart';
+import 'package:get/get.dart';
+
 class SupplierDrawer extends StatelessWidget {
   const SupplierDrawer({Key? key}) : super(key: key);
 
@@ -15,7 +19,7 @@ class SupplierDrawer extends StatelessWidget {
             ),
             child: Center(
               child: Row(
-                children: const [
+                children: [
                   Expanded(
                     child: Icon(
                       Icons.account_circle,
@@ -27,7 +31,7 @@ class SupplierDrawer extends StatelessWidget {
                   Expanded(
                     flex: 6,
                     child: Text(
-                      "Supplier",
+                      'Supplier'.tr,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -56,7 +60,7 @@ class SupplierDrawer extends StatelessWidget {
           //   color: Colors.grey,
           // ),
           ListTile(
-            title: const Text("Add Product"),
+            title: Text('Add Product'.tr),
             leading: IconButton(
               icon: const Icon(Icons.add),
               onPressed: () {
@@ -76,7 +80,7 @@ class SupplierDrawer extends StatelessWidget {
             color: Colors.grey,
           ),
           ListTile(
-            title: const Text("Show All Product"),
+            title: Text('Show All Product'.tr),
             leading: IconButton(
               icon: const Icon(Icons.category),
               onPressed: () {
@@ -95,6 +99,24 @@ class SupplierDrawer extends StatelessWidget {
           const Divider(
             color: Colors.grey,
           ),
+          ListTile(
+            title: Text('Add New Rider'.tr),
+            leading: IconButton(
+              icon: const Icon(Icons.create),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => CreateUser(),
+                ),
+              );
+            },
+          ),
+           
         ],
       ),
     );
