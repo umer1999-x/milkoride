@@ -63,6 +63,7 @@ getProductItems(AsyncSnapshot<QuerySnapshot> snapshot, BuildContext context) {
                             doc["productName"].toString(),
                             doc["productPrice"],
                             doc["productUnit"].toString(),
+                            doc['productPicUrl'].toString(),
                           ),
                         ),
                       );

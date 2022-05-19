@@ -33,7 +33,8 @@ class CustomerScreen extends StatelessWidget {
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('orders')
-              .where('userId', isEqualTo: AuthService.getUid).where('isDelivered',isEqualTo: false)
+              .where('userId', isEqualTo: AuthService.getUid)
+              .where('isDelivered', isEqualTo: false)
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -110,7 +111,9 @@ class CustomerScreen extends StatelessWidget {
                                                   orderData[index]
                                                       .orderList![picindex]
                                                       .productImage,
-                                                  fit: BoxFit.fill,
+                                                  fit: BoxFit.cover,
+                                                  width: 110,
+                                                  height: 110,
                                                 ),
                                               ],
                                             ),

@@ -128,7 +128,9 @@ class _SupplierScreenState extends State<SupplierScreen> {
                                                             .orderList![
                                                                 picindex]
                                                             .productImage,
-                                                        fit: BoxFit.fill,
+                                                        fit: BoxFit.cover,
+                                                        width: 110,
+                                                        height: 110,
                                                       ),
                                                     ],
                                                   ),

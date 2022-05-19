@@ -54,6 +54,7 @@ dev_dependencies:
   google_fonts: ^2.3.1
   firebase_storage: ^10.2.9
   get: ^4.6.1
+  dcdg: ^4.0.1
 
 
 # For information on the generic Dart part of this file, see the

@@ -38,6 +38,7 @@ mixin InputValidationMixin {
     RegExp regex = RegExp(pattern.toString());
     return regex.hasMatch(name!);
   }
+
   bool isPriceValid(String? price) {
     Pattern pattern = r'^[0-9]+$';
     RegExp regex = RegExp(pattern.toString());
@@ -50,10 +51,12 @@ pickImage(ImageSource source) async {
   XFile? _file = await _imagePicker.pickImage(source: source);
   if (_file != null) {
     return await _file.readAsBytes();
+  } else {
+    return null;
   }
-  if (kDebugMode) {
-    print('No Image Selected');
-  }
+  // if (kDebugMode) {
+  //   print('No Image Selected');
+  // }
 }
 
 // for displaying snacks

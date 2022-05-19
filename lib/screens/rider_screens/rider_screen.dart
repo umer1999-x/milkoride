@@ -131,7 +131,9 @@ class _RiderScreenState extends State<RiderScreen> {
                                                             .orderList![
                                                                 picindex]
                                                             .productImage,
-                                                        fit: BoxFit.fill,
+                                                        fit: BoxFit.cover,
+                                                        width: 110,
+                                                        height: 110,
                                                       ),
                                                     ],
                                                   ),

@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:milkoride/translation.dart';
 import 'controllers/admin_controller.dart';
 import 'controllers/cart_controller.dart';
+// import 'package:dcdg/dcdg.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

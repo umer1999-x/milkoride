@@ -65,6 +65,7 @@ class LocaleString extends Translations {
           'product added to cart': 'product added to cart',
           'OrderPlaced': 'OrderPlaced',
           'Your Order Has Been Placed': 'Your Order Has Been Placed',
+          'Change Image': 'Change Image',
         },
         'Ur_Pak': {
           'Email': 'ای میل',
@@ -128,6 +129,7 @@ class LocaleString extends Translations {
           'product added to cart': 'پروڈکٹ کو ٹوکری میں شامل کیا گیا',
           'OrderPlaced': 'آرڈر پلیسڈ',
           'Your Order Has Been Placed': 'آپ کا آرڈر ہو گیا',
+          'Change Image': 'تصویر تبدیل کریں',
         }
       };
 }
