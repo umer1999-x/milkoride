@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       translations: LocaleString(),
       locale: const Locale('en', 'US'),
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: GoogleFonts.openSans().fontFamily,
         visualDensity: const VisualDensity(vertical: 1, horizontal: 1),
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -53,6 +53,7 @@ class AdminScreen extends StatelessWidget with InputValidationMixin {
                     decoration: const InputDecoration(
                       labelText: "Email",
                       border: OutlineInputBorder(
+                      
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       ),
                     ),

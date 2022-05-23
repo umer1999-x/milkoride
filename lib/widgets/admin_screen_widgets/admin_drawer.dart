@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:milkoride/screens/admin_screens/create_user_screen.dart';
 import 'package:milkoride/screens/admin_screens/add_product.dart';
 import 'package:milkoride/screens/admin_screens/show_products.dart';
+import 'package:milkoride/screens/admin_screens/show_users.dart';
 
 class AdminDrawer extends StatelessWidget {
   const AdminDrawer({Key? key}) : super(key: key);
@@ -54,9 +55,6 @@ class AdminDrawer extends StatelessWidget {
                   builder: (BuildContext context) => CreateUser()));
             },
           ),
-          const Divider(
-            color: Colors.grey,
-          ),
           ListTile(
             title: const Text("Add Product"),
             leading: IconButton(
@@ -74,9 +72,6 @@ class AdminDrawer extends StatelessWidget {
               );
             },
           ),
-          const Divider(
-            color: Colors.grey,
-          ),
           ListTile(
             title: const Text("Show All Product"),
             leading: IconButton(
@@ -90,6 +85,23 @@ class AdminDrawer extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (BuildContext context) => const ShowProduct(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text("Show All Users"),
+            leading: IconButton(
+              icon: const Icon(Icons.people),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const ShowUsers(),
                 ),
               );
             },

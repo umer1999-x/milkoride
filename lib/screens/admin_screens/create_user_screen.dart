@@ -18,7 +18,7 @@ class CreateUser extends StatelessWidget with InputValidationMixin {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Create User"),
+          title: Text('Create User'.tr),
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -29,18 +29,18 @@ class CreateUser extends StatelessWidget with InputValidationMixin {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Create User',
-                    style: TextStyle(
+                  Text(
+                    'Create User'.tr,
+                    style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   TextFormField(
                     controller: nameController,
-                    decoration: const InputDecoration(
-                      labelText: "Name",
-                      border: OutlineInputBorder(
+                    decoration: InputDecoration(
+                      labelText: 'Name'.tr,
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       ),
                     ),
@@ -55,9 +55,9 @@ class CreateUser extends StatelessWidget with InputValidationMixin {
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: emailController,
-                    decoration: const InputDecoration(
-                      labelText: "Email",
-                      border: OutlineInputBorder(
+                    decoration: InputDecoration(
+                      labelText: 'Email'.tr,
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       ),
                     ),
@@ -72,9 +72,9 @@ class CreateUser extends StatelessWidget with InputValidationMixin {
                   const SizedBox(height: 10),
                   TextFormField(
                     controller: passwordController,
-                    decoration: const InputDecoration(
-                      labelText: "Password",
-                      border: OutlineInputBorder(
+                    decoration: InputDecoration(
+                      labelText: 'Password'.tr,
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       ),
                     ),
@@ -91,14 +91,16 @@ class CreateUser extends StatelessWidget with InputValidationMixin {
                   const SizedBox(height: 10),
                   TextFormField(
                     controller: roleController,
-                    decoration: const InputDecoration(
-                      labelText: "Role",
-                      border: OutlineInputBorder(
+                    decoration: InputDecoration(
+                      labelText: 'Role'.tr,
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       ),
                     ),
                     validator: (role) {
-                      if (role == 'customer' || role == 'supplier' || role =='rider') {
+                      if (role == 'customer' ||
+                          role == 'supplier' ||
+                          role == 'rider') {
                         return null;
                       } else {
                         return 'Enter a valid role';
@@ -110,14 +112,15 @@ class CreateUser extends StatelessWidget with InputValidationMixin {
                   ),
                   TextFormField(
                     controller: addressController,
-                    decoration: const InputDecoration(
-                      labelText: "Shipping Address",
-                      border: OutlineInputBorder(
+                    decoration: InputDecoration(
+                      labelText: 'Shipping Address'.tr,
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       ),
                     ),
                     validator: (address) {
-                      if (address!.isNotEmpty && address.contains(RegExp(r'[a-zA-Z0-9, ]'))) {
+                      if (address!.isNotEmpty &&
+                          address.contains(RegExp(r'[a-zA-Z0-9, ]'))) {
                         return null;
                       } else {
                         return 'Enter a valid address';
@@ -140,15 +143,16 @@ class CreateUser extends StatelessWidget with InputValidationMixin {
                                 final String password =
                                     passwordController.text.trim();
                                 final String role = roleController.text.trim();
-                                final String address =addressController.text.trim();
+                                final String address =
+                                    addressController.text.trim();
                                 final String result = await auth.signUp(
-                                    name, email, password, role,address);
+                                    name, email, password, role, address);
                                 if (result.toString() == 'Signed Up') {
                                   Get.defaultDialog(
                                     title: 'Alert',
                                     content: const Text('User Created'),
                                   );
-                                  createUserController.isCreating.value =false;
+                                  createUserController.isCreating.value = false;
                                   nameController.clear();
                                   emailController.clear();
                                   passwordController.clear();
@@ -166,9 +170,9 @@ class CreateUser extends StatelessWidget with InputValidationMixin {
                               height: 50,
                               width: 100,
                               color: Colors.blue,
-                              child: const Center(
+                              child: Center(
                                 child: Text(
-                                  "Create User",
+                                  'Create User'.tr,
                                 ),
                               ),
                             ),

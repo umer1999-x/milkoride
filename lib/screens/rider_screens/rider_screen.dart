@@ -22,7 +22,7 @@ class _RiderScreenState extends State<RiderScreen> {
       child: Scaffold(
         // drawer: const SupplierDrawer(),
         appBar: AppBar(
-          title: Text('Rider Screen'),
+          title: Text('Rider Screen'.tr),
           actions: [
             IconButton(
               onPressed: () {

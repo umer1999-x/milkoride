@@ -18,7 +18,7 @@ class _CustomerPlaceOrderState extends State<CustomerPlaceOrder> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Place a order'),
+          title: Text('Place a order'.tr),
           actions: [
             IconButton(
                 onPressed: () {

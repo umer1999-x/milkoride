@@ -36,8 +36,7 @@ class LoginScreen extends StatelessWidget with InputValidationMixin {
       navigateNext(AdminScreen());
     } else if (loginController.roleAssign == 'supplier') {
       navigateNext(const SupplierScreen());
-    }
-    else if(loginController.roleAssign=='rider'){
+    } else if (loginController.roleAssign == 'rider') {
       navigateNext(const RiderScreen());
     }
   }
@@ -68,7 +67,7 @@ class LoginScreen extends StatelessWidget with InputValidationMixin {
                 icon: const Icon(Icons.translate_outlined))
             //ToggleButtons(children: children, isSelected: isSelected)
           ],
-          title: Text('LogIn'.tr),
+          title: Text('Milkoride'.tr),
           centerTitle: true,
         ),
         body: Padding(
@@ -81,9 +80,8 @@ class LoginScreen extends StatelessWidget with InputValidationMixin {
                 SizedBox(
                   height: 180,
                   child: Center(
-                    child: Lottie.asset(
-                      'images/user-profile.json',
-                    ),
+                    child:
+                        Lottie.asset('images/user-profile.json', reverse: true),
                   ),
                 ),
                 const SizedBox(
@@ -162,7 +160,7 @@ class LoginScreen extends StatelessWidget with InputValidationMixin {
                               if (res.toString() == 'Logged In') {
                                 checkRole();
                                 Get.defaultDialog(
-                                  title:'Alert'.tr,
+                                  title: 'Alert'.tr,
                                   //Get.locale.toString() == 'en_US'
                                   //     ? 'Alert'
                                   //     : 'الرٹ',

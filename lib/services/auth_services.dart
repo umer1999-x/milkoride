@@ -30,6 +30,7 @@ class AuthService {
   }
 
   Future<String> signUp(
+    
       String name, String email, String password, String role,String address) async {
     try {
       await _auth

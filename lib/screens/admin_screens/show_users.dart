@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
-import "package:cloud_firestore/cloud_firestore.dart";
-import 'package:milkoride/screens/admin_screens/edit_product.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ShowProduct extends StatefulWidget {
-  const ShowProduct({Key? key}) : super(key: key);
+import 'edit_user_data.dart';
+
+class ShowUsers extends StatefulWidget {
+  const ShowUsers({Key? key}) : super(key: key);
 
   @override
-  _ShowProductState createState() => _ShowProductState();
+  _ShowUsersState createState() => _ShowUsersState();
 }
 
-class _ShowProductState extends State<ShowProduct> {
+class _ShowUsersState extends State<ShowUsers> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Products List'.tr),
+          title: Text('Users List'.tr),
         ),
         body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('products').snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .where('role', isNotEqualTo: 'admin')
+              .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -47,47 +51,39 @@ getProductItems(AsyncSnapshot<QuerySnapshot> snapshot, BuildContext context) {
           elevation: 10.0,
           child: ListTile(
             contentPadding: const EdgeInsets.all(8),
-            leading: Image.network(
-              doc["productPicUrl"],
-            ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(doc['productUnit'.tr]),
+                Text(doc['role'.tr]),
                 IconButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditProduct(
-                            doc["productId"].toString(),
-                            doc["productName"].toString(),
-                            doc["productPrice"],
-                            doc["productUnit"].toString(),
-                            doc['productPicUrl'].toString(),
-                          ),
-                        ),
-                      );
+                      Get.to(() => EditUser(), arguments: [
+                        doc['uid'],
+                        doc['email'],
+                        doc['role'],
+                        doc['name'],
+                        doc['address'],
+                      ]);
                     },
                     icon: const Icon(Icons.edit)),
                 IconButton(
                   onPressed: () async {
                     await FirebaseFirestore.instance
-                        .collection('products')
-                        .doc(doc['productId'].toString())
+                        .collection('users')
+                        .doc(doc['uid'].toString())
                         .delete();
                   },
                   icon: const Icon(Icons.delete),
                 ),
               ],
             ),
-            title: Text(doc['productName'.tr]),
+            title: Text(doc['name'.tr]),
             // onTap: () {
             //   Navigator.push(
             //       context, MaterialPageRoute(builder: (context) =>DataScreen(name: doc["name"])));
             // },
             subtitle: Text(
-              doc['productType'.tr],
+              doc["email"].toString(),
             ),
           ),
         ),

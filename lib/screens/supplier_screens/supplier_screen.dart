@@ -20,7 +20,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        drawer: const SupplierDrawer(),
+        drawer: SupplierDrawer(),
         appBar: AppBar(
           title: Text('Supplier Screen'.tr),
           actions: [
@@ -29,7 +29,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
                 FirebaseAuth.instance.signOut();
                 Get.offAndToNamed('/login');
               },
-              icon: Icon(Icons.logout_outlined),
+              icon: const Icon(Icons.logout_outlined),
             ),
           ],
         ),
@@ -37,8 +37,10 @@ class _SupplierScreenState extends State<SupplierScreen> {
           children: [
             Expanded(
               child: StreamBuilder(
-                stream:
-                    FirebaseFirestore.instance.collection('orders').snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection('orders')
+                    .where('isDelivered', isEqualTo: false)
+                    .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -244,199 +246,7 @@ class _SupplierScreenState extends State<SupplierScreen> {
                           );
                         },
                       );
-                    }
-                    // if (snapshot.data!.docs.isNotEmpty) {
-                    //   List<OrderModel> order = snapshot.data!.docs
-                    //       .map((e) => OrderModel.fromMap(
-                    //           e.data() as Map<String, dynamic>))
-                    //       .toList();
-                    //   return Expanded(
-                    //     child: ListView.builder(
-                    //       //shrinkWrap: true,
-                    //       itemCount: order.length,
-                    //       itemBuilder: (context, index) {
-                    //         if (kDebugMode) {
-                    //           print(order.length.toString());
-                    //         }
-                    //         return Card(
-                    //           elevation: 10.0,
-                    //           color: Colors.blue[50],
-                    //           child: Column(
-                    //             mainAxisSize: MainAxisSize.max,
-                    //             mainAxisAlignment: MainAxisAlignment.start,
-                    //             crossAxisAlignment: CrossAxisAlignment.start,
-                    //             children: [
-                    //               ListTile(
-                    //                 title: Text(
-                    //                   'Customer Name'.tr +
-                    //                       order[index]
-                    //                           .customerName
-                    //                           .toString()
-                    //                           .toUpperCase(),
-                    //                 ),
-                    //                 subtitle: Column(
-                    //                   children: [
-                    //                     Row(
-                    //                       children: [
-                    //                         order[index].isDelivered
-                    //                             ? Text('Status'.tr +
-                    //                                 'Delivered'.tr)
-                    //                             : Text('Status'.tr +
-                    //                                 'Not Deliver Yet'.tr),
-                    //                       ],
-                    //                     ),
-                    //                     Row(
-                    //                       children: [
-                    //                         Expanded(
-                    //                           child: Text(
-                    //                             'Address'.tr +
-                    //                                 order[index]
-                    //                                     .deliveryAddress
-                    //                                     .toString()
-                    //                                     .toUpperCase(),
-                    //                           ),
-                    //                         ),
-                    //                       ],
-                    //                     ),
-                    //                   ],
-                    //                 ),
-                    //                 trailing: Text('Total Bill'.tr +
-                    //                     order[index].totalBill.toString()),
-                    //               ),
-                    //               SizedBox(
-                    //                 height:
-                    //                     MediaQuery.of(context).size.height * .3,
-                    //                 width:
-                    //                     MediaQuery.of(context).size.width * 1,
-                    //                 child: ListView.builder(
-                    //                   scrollDirection: Axis.horizontal,
-                    //                   itemCount: order[index].orderList!.length,
-                    //                   itemBuilder: (context, position) {
-                    //                     return Padding(
-                    //                       padding: const EdgeInsets.all(8.0),
-                    //                       child: Column(
-                    //                         children: [
-                    //                           Row(
-                    //                             children: [
-                    //                               Text(
-                    //                                 order[index]
-                    //                                     .orderList![position]
-                    //                                     .productName
-                    //                                     .toString()
-                    //                                     .tr
-                    //                                     .toUpperCase(),
-                    //                               ),
-                    //                               Text(
-                    //                                 '  x' +
-                    //                                     order[index]
-                    //                                         .orderList![
-                    //                                             position]
-                    //                                         .quantity
-                    //                                         .toString(),
-                    //                               ),
-                    //                             ],
-                    //                           ),
-                    //                           Expanded(
-                    //                             child: Container(
-                    //                               height: MediaQuery.of(context)
-                    //                                       .size
-                    //                                       .height *
-                    //                                   .25,
-                    //                               width: MediaQuery.of(context)
-                    //                                       .size
-                    //                                       .width *
-                    //                                   .5,
-                    //                               decoration: BoxDecoration(
-                    //                                 borderRadius:
-                    //                                     BorderRadius.circular(
-                    //                                         10),
-                    //                                 image: DecorationImage(
-                    //                                   fit: BoxFit.cover,
-                    //                                   image: NetworkImage(
-                    //                                     order[index]
-                    //                                         .orderList![
-                    //                                             position]
-                    //                                         .productImage
-                    //                                         .toString(),
-                    //                                   ),
-                    //                                 ),
-                    //                               ),
-                    //                             ),
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                     );
-                    //                   },
-                    //                 ),
-                    //               ),
-                    //               order[index]
-                    //                       .deliveryBoy['name']
-                    //                       .toString()
-                    //                       .isEmpty
-                    //                   ? Row(
-                    //                       mainAxisSize: MainAxisSize.max,
-                    //                       mainAxisAlignment:
-                    //                           MainAxisAlignment.spaceAround,
-                    //                       children: [
-                    //                         ElevatedButton.icon(
-                    //                           onPressed: () async {
-                    //                             showDialog(
-                    //                                 context: context,
-                    //                                 builder:
-                    //                                     (BuildContext context) {
-                    //                                   return DeliveryBoyList(
-                    //                                     docId: order[index]
-                    //                                         .userId
-                    //                                         .toString(),
-                    //                                   );
-                    //                                 });
-                    //                           },
-                    //                           icon: const Icon(
-                    //                               Icons.copy_outlined),
-                    //                           label: Expanded(
-                    //                               child:
-                    //                                   Text('Assign Rider'.tr)),
-                    //                         ),
-                    //                         const SizedBox(
-                    //                           width: 5.0,
-                    //                         ),
-                    //                         ElevatedButton.icon(
-                    //                           style: ElevatedButton.styleFrom(
-                    //                             primary: Colors.red,
-                    //                           ),
-                    //                           onPressed: () async {
-                    //                             await FirebaseFirestore.instance
-                    //                                 .collection('orders')
-                    //                                 .doc(order[index]
-                    //                                     .userId
-                    //                                     .toString())
-                    //                                 .delete();
-                    //                           },
-                    //                           icon: const Icon(
-                    //                               Icons.cancel_rounded),
-                    //                           label: Text('Cancel Order'.tr),
-                    //                         ),
-                    //                       ],
-                    //                     )
-                    //                   : Center(
-                    //                       child: ElevatedButton.icon(
-                    //                         style: ElevatedButton.styleFrom(
-                    //                           primary: Colors.green,
-                    //                         ),
-                    //                         onPressed: () {},
-                    //                         icon: const Icon(
-                    //                             Icons.done_outline_rounded),
-                    //                         label: Text('Rider Assigned'.tr),
-                    //                       ),
-                    //                     ),
-                    //             ],
-                    //           ),
-                    //         );
-                    //       },
-                    //     ),
-                    //   );
-                    // }
-                    else {
+                    } else {
                       return Center(
                         child: Text('No Order Exist'.tr),
                       );

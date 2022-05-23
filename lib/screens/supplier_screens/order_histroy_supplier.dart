@@ -6,14 +6,14 @@ import 'package:milkoride/services/auth_services.dart';
 
 import '../../models/order_model.dart';
 
-class OrderHistroy extends StatefulWidget {
-  const OrderHistroy({Key? key}) : super(key: key);
+class OrderHistroySupplier extends StatefulWidget {
+  const OrderHistroySupplier({Key? key}) : super(key: key);
 
   @override
-  State<OrderHistroy> createState() => _OrderHistroyState();
+  State<OrderHistroySupplier> createState() => _OrderHistroySupplierState();
 }
 
-class _OrderHistroyState extends State<OrderHistroy> {
+class _OrderHistroySupplierState extends State<OrderHistroySupplier> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +23,6 @@ class _OrderHistroyState extends State<OrderHistroy> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('orders')
-            .where('userId', isEqualTo: AuthService.getUid)
             .where('isDelivered', isEqualTo: true)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

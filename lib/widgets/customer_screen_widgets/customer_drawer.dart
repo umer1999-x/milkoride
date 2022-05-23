@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:milkoride/screens/customer_screens/order_histroy.dart';
@@ -5,8 +7,8 @@ import '../../screens/customer_screens/cart_screen.dart';
 import '../../screens/customer_screens/customer_order_place_screen.dart';
 
 class CustomerDrawer extends StatelessWidget {
-  const CustomerDrawer({Key? key}) : super(key: key);
-
+  CustomerDrawer({Key? key}) : super(key: key);
+  var locale = Get.locale;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -52,7 +54,8 @@ class CustomerDrawer extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => const CustomerPlaceOrder()));
+                  builder: (BuildContext context) =>
+                      const CustomerPlaceOrder()));
             },
           ),
           // ListTile(
@@ -105,6 +108,31 @@ class CustomerDrawer extends StatelessWidget {
                   builder: (BuildContext context) => const OrderHistroy(),
                 ),
               );
+            },
+          ),
+
+          ListTile(
+            title: Text('Language change'.tr),
+            leading: IconButton(
+              icon: const Icon(Icons.translate),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              if (locale.toString() == 'Ur_Pak') {
+                locale = const Locale('en', 'US');
+                Get.updateLocale(locale!);
+              } else if (locale.toString() == 'en_US') {
+                locale = const Locale('Ur', 'Pak');
+                Get.updateLocale(locale!);
+              }
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (BuildContext context) => const OrderHistroy(),
+              //   ),
+              // );
             },
           ),
 

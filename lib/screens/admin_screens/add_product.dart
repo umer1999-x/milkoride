@@ -75,7 +75,7 @@ class _AddProductState extends State<AddProduct> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Add Product'),
+          title: Text('Add Product'.tr),
         ),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -83,19 +83,19 @@ class _AddProductState extends State<AddProduct> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                const Text(
-                  "Add Product",
-                  style: TextStyle(
+                Text(
+                  "Add Product".tr,
+                  style: const TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 TextField(
                   controller: _titleController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                    labelText: "title",
+                    labelText: 'title'.tr,
                   ),
                 ),
                 const SizedBox(
@@ -104,10 +104,10 @@ class _AddProductState extends State<AddProduct> {
                 TextField(
                   keyboardType: TextInputType.number,
                   controller: _priceController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                    labelText: "price",
+                    labelText: 'price'.tr,
                   ),
                 ),
                 Padding(
@@ -115,9 +115,9 @@ class _AddProductState extends State<AddProduct> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Select Category',
-                        style: TextStyle(
+                      Text(
+                        'Select Category'.tr,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -146,9 +146,9 @@ class _AddProductState extends State<AddProduct> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Select Price Unit',
-                        style: TextStyle(
+                      Text(
+                        'Select Price Unit'.tr,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -174,7 +174,7 @@ class _AddProductState extends State<AddProduct> {
                 ),
                 _file == null
                     ? ElevatedButton(
-                        child: const Text('Select product images'),
+                        child: Text('Select product images'.tr),
                         onPressed: () {
                           _selectImage(context);
                         },

@@ -29,6 +29,7 @@ class _ProductCardState extends State<ProductCard> {
         shape: BoxShape.rectangle,
         color: Colors.blue,
         image: DecorationImage(
+          opacity: 0.7,
           fit: BoxFit.fill,
           image: NetworkImage(
             widget.snap['productPicUrl'].toString(),
@@ -41,8 +42,8 @@ class _ProductCardState extends State<ProductCard> {
           Text(
             widget.snap['productName'].toString().tr,
             style: const TextStyle(
-              color: Colors.blue,
-              fontSize: 30,
+              color: Colors.white,
+              fontSize: 40,
               fontWeight: FontWeight.bold,
             ),
           ),

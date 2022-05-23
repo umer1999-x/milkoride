@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:milkoride/models/cart_model.dart';
 import 'package:milkoride/services/controllers.dart';
@@ -11,12 +13,12 @@ class CartScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Cart Screen'),
+          title: Text('Cart Screen'.tr),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
-          physics: ScrollPhysics(),
-          padding: EdgeInsets.all(6),
+          physics: const ScrollPhysics(),
+          padding: const EdgeInsets.all(6),
           child: Column(children: [
             Obx(
               () => ListView.builder(
@@ -146,11 +148,11 @@ class CartTile extends StatelessWidget {
                 iconSize: 30,
                 onPressed: () {
                   cartController.quantityIncrement(index);
-                  print('pressed total price');
-                  var res = cartController.cartPrice();
-                  print('res ' + res.toString());
+                  //print('pressed total price');
+                   cartController.cartPrice();
+                  //print('res ' + res.toString());
                   //cartController.cartList[index].quantity++;
-                  print('incremented');
+                  //print('incremented');
                 },
                 icon: const Icon(
                   Icons.add,
@@ -186,11 +188,11 @@ class CartTile extends StatelessWidget {
                 onPressed: () {
                   cartController.quantityDecrement(index);
                   //cartController.cartList[index].quantity--;
-                  print('pressed total price');
-                  var res = cartController.cartPrice();
-                  print('res ' + res.toString());
+                 // print('pressed total price');
+                  cartController.cartPrice();
+                 // print('res ' + res.toString());
 
-                  print('decremented');
+                  //print('decremented');
                 },
                 icon: const Icon(
                   Icons.remove,

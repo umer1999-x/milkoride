@@ -18,7 +18,7 @@ class CustomerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        drawer: const CustomerDrawer(),
+        drawer: CustomerDrawer(),
         appBar: AppBar(
           title: Text('Customer Screen'.tr),
           actions: [

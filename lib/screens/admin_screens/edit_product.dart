@@ -89,7 +89,7 @@ class _EditProductState extends State<EditProduct> with InputValidationMixin {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Edit Product'),
+          title: Text('Edit Product'.tr),
         ),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -99,9 +99,10 @@ class _EditProductState extends State<EditProduct> with InputValidationMixin {
               scrollDirection: Axis.vertical,
               children: [
                 TextFormField(
+                  
                   controller: nameController,
                   decoration: InputDecoration(
-                    labelText: 'Product Name',
+                    labelText: 'Product Name'.tr,
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
@@ -121,7 +122,7 @@ class _EditProductState extends State<EditProduct> with InputValidationMixin {
                   controller: priceController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    labelText: 'Porduct Price',
+                    labelText:'price'.tr,
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
@@ -139,9 +140,9 @@ class _EditProductState extends State<EditProduct> with InputValidationMixin {
                 ),
                 TextFormField(
                   controller: unitController,
-                  decoration: const InputDecoration(
-                    labelText: 'Product Unit',
-                    border: OutlineInputBorder(
+                  decoration: InputDecoration(
+                    labelText: 'Product Unit'.tr,
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
                   ),
@@ -242,8 +243,8 @@ class _EditProductState extends State<EditProduct> with InputValidationMixin {
                               Navigator.pop(context);
                             }
                           },
-                          child: const Text(
-                            'Update Porduct',
+                          child: Text(
+                            'Update Porduct'.tr,
                           ),
                         ),
                 ),
