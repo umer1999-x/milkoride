@@ -1,5 +1,8 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:milkoride/controllers/add_product_controller.dart';
 import 'package:milkoride/controllers/create_user_controller.dart';
 import 'package:milkoride/controllers/edit_product_controller.dart';
@@ -16,6 +19,7 @@ import 'controllers/cart_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: WidgetsBinding.instance);
   await Firebase.initializeApp();
   Get.put(CartController());
   Get.put(LoginController());
@@ -25,14 +29,17 @@ void main() async {
   Get.put(CreateUserController());
   Get.put(AddProductController());
   Get.put(EditProductController());
-  runApp(MyApp());
+
+  
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-
+ const MyApp({Key? key}) : super(key: key);
   @override
+
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
     return GetMaterialApp(
       translations: LocaleString(),
       locale: const Locale('en', 'US'),
@@ -43,7 +50,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => HomePage(),
+        '/': (context) => const HomePage(),
         '/login': (context) => LoginScreen(),
       },
       title: "Milkoride",
